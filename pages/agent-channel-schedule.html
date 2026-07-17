@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>主动渠道资源排期 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/agent-channel-schedule-data.js"></script>
+  <script>const CURRENT_PAGE='agent-channel-schedule.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions"><span>李敏 · 系统配置员</span><div class="avatar"></div></div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 主动渠道资源排期</div>
+        <div class="agent-sd-intro">
+          <i class="fas fa-calendar-alt"></i>
+          <div>先选定主动渠道与排期月份，再查看并维护该范围内云南省各地市州的资源额度。</div>
+        </div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <h1>主动渠道资源排期</h1>
+          <div class="agent-toolbar" style="margin:0">
+            <button type="button" class="btn btn-outline btn-sm" id="btn-import"><i class="fas fa-file-import"></i> 批量导入</button>
+            <button type="button" class="btn btn-primary" id="btn-create"><i class="fas fa-plus"></i> 新增</button>
+          </div>
+        </div>
+
+        <div class="acs-scope-bar">
+          <div class="acs-scope-title">
+            <i class="fas fa-layer-group"></i>
+            <span>查看范围</span>
+          </div>
+          <div class="acs-scope-fields">
+            <div class="acs-scope-item">
+              <label for="scope-channel">主动渠道</label>
+              <select id="scope-channel"></select>
+            </div>
+            <div class="acs-scope-item">
+              <label for="scope-month">排期月份</label>
+              <input type="month" id="scope-month"/>
+            </div>
+          </div>
+          <p class="acs-scope-hint" id="scope-hint"></p>
+        </div>
+
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="filter-city">地市州</label>
+            <select id="filter-city">
+              <option value="">全部地市州</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" id="btn-search"><i class="fas fa-search"></i> 查询</button>
+            <button type="button" class="btn btn-outline" id="btn-reset">重置</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>地市额度列表</span>
+            <span class="muted" id="list-count" style="font-size:12px;font-weight:normal"></span>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table">
+              <thead>
+                <tr>
+                  <th style="min-width:180px">地市名称</th>
+                  <th style="width:140px">本月额度</th>
+                  <th style="width:140px">已占用额度</th>
+                  <th style="width:140px">剩余额度</th>
+                  <th style="width:90px">更新人</th>
+                  <th style="width:150px">更新时间</th>
+                  <th style="width:200px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="list-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- 新增 / 编辑 -->
+<div class="modal-overlay" id="modal-form">
+  <div class="modal-box modal-qa">
+    <div class="modal-header">
+      <div><strong id="form-title">新增额度</strong></div>
+      <button type="button" class="modal-close" data-close-modal="modal-form"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="schedule-form" class="modal-body">
+      <input type="hidden" id="f-id" value=""/>
+      <div class="acs-form-rows">
+        <div class="acs-form-row">
+          <label class="req" for="f-channel">主动渠道</label>
+          <div class="acs-form-control"><select id="f-channel" required></select></div>
+        </div>
+        <div class="acs-form-row">
+          <label class="req" for="f-month">排期月份</label>
+          <div class="acs-form-control">
+            <input type="month" id="f-month" required/>
+            <p class="acs-form-hint">按自然月配置各地市州渠道额度</p>
+          </div>
+        </div>
+        <div class="acs-form-row">
+          <label class="req" for="f-city">地市州</label>
+          <div class="acs-form-control"><select id="f-city" required></select></div>
+        </div>
+        <div class="acs-form-row">
+          <label class="req" for="f-quota">本月额度</label>
+          <div class="acs-form-control">
+            <input type="number" id="f-quota" min="0" step="1" required placeholder="请输入本月额度"/>
+            <p class="acs-form-hint" id="f-quota-hint">按当前渠道填写该地市当月可执行上限。</p>
+          </div>
+        </div>
+        <div class="acs-form-row" id="f-used-row" hidden>
+          <label>已占用额度</label>
+          <div class="acs-form-control">
+            <div class="acs-form-readonly" id="f-used-view">—</div>
+            <p class="acs-form-hint">已占用额度由业务执行占用自动累计，不可手工修改；剩余额度 = 本月额度 − 已占用额度</p>
+          </div>
+        </div>
+        <div class="acs-form-row">
+          <label for="f-remark">备注</label>
+          <div class="acs-form-control">
+            <textarea id="f-remark" rows="2" placeholder="可选填写说明"></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-form">取消</button>
+      <button type="submit" form="schedule-form" class="btn btn-primary">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 详情 -->
+<div class="modal-overlay" id="modal-detail">
+  <div class="modal-box modal-qa">
+    <div class="modal-header">
+      <div><strong>额度详情</strong></div>
+      <button type="button" class="modal-close" data-close-modal="modal-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="detail-body"></div>
+    <div class="modal-footer" style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <button type="button" class="btn btn-outline link-danger" id="btn-detail-delete" style="color:#dc2626;border-color:#fecaca">
+        <i class="fas fa-trash"></i> 删除
+      </button>
+      <div style="display:flex;gap:8px;margin-left:auto">
+        <button type="button" class="btn btn-outline" data-close-modal="modal-detail">关闭</button>
+        <button type="button" class="btn btn-primary" id="btn-detail-edit"><i class="fas fa-pen"></i> 编辑</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 批量导入 -->
+<div class="modal-overlay" id="modal-import">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <div>
+        <strong>批量导入</strong>
+        <p class="qa-modal-sub">上传 Excel；导入本月额度后将自动切换到对应渠道与月份查看</p>
+      </div>
+      <button type="button" class="modal-close" data-close-modal="modal-import"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="qa-import-dropzone" id="import-dropzone">
+        <input type="file" id="import-file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" hidden/>
+        <i class="fas fa-cloud-upload-alt qa-import-icon"></i>
+        <p class="qa-import-main">拖拽文件到此处，或<a href="#" class="link-action" id="import-pick">点击选择文件</a></p>
+        <p class="qa-import-hint muted">仅支持 Excel（.xlsx）格式</p>
+        <p class="qa-import-file-name" id="import-file-name"></p>
+      </div>
+      <p class="qa-import-template">
+        <a href="#" class="link-action" id="import-template"><i class="fas fa-download"></i> 下载导入模板</a>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-import">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-import-confirm" disabled><i class="fas fa-file-import"></i> 确认导入</button>
+    </div>
+  </div>
+</div>
+
+<!-- 删除确认 -->
+<div class="modal-overlay" id="modal-delete">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <strong><i class="fas fa-trash-alt text-danger"></i> 删除确认</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-delete"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p>删除后，该地市在当前渠道、当前月份下的额度配置将被清除，列表中该行恢复为未配置状态。</p>
+      <div class="qa-disable-preview" id="delete-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-delete">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-delete-confirm"><i class="fas fa-trash"></i> 确认删除</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-channel-schedule.js"></script>
+</body>
+</html>

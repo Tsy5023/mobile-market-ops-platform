@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略审批管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/strategy-lifecycle.js"></script>
+  <script src="../assets/js/agent-strategy-diagnosis-data.js"></script>
+  <script src="../assets/js/agent-strategy-audit-data.js"></script>
+  <script>const CURRENT_PAGE='agent-strategy-approval.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 策略审批管理</div>
+
+        <div class="agent-sd-intro">
+          <i class="fas fa-clipboard-check"></i>
+          <div>
+            <strong>策略审核助手 · 策略审批管理</strong><br/>
+            浏览待审策略信息，勾选多条后发起 AI 智能审批；也可直接进入智能审核任务列表查看历史审核记录。
+          </div>
+        </div>
+
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <h1>策略审批管理</h1>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" class="btn btn-primary btn-sm" id="btn-smart-audit" disabled><i class="fas fa-wand-magic-sparkles"></i> 智能审批</button>
+            <a href="agent-audit-list.html" class="btn btn-outline btn-sm"><i class="fas fa-list-check"></i> 智能审核任务</a>
+          </div>
+        </div>
+
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="sa-strategy-id">策略ID</label>
+            <input type="text" id="sa-strategy-id" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="sa-strategy-name">策略名称</label>
+            <input type="text" id="sa-strategy-name" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="sa-status">策略状态</label>
+            <select id="sa-status">
+              <option value="">全部</option>
+              <option value="draft">草稿</option>
+              <option value="pending_approval">审批中</option>
+              <option value="approval_rejected">审批退回</option>
+              <option value="pending_exec">待执行</option>
+              <option value="executing">执行中</option>
+              <option value="completed">完成</option>
+              <option value="terminated">终止</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="sa-channel">渠道名称</label>
+            <input type="text" id="sa-channel" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="sa-business-type">业务类型</label>
+            <select id="sa-business-type">
+              <option value="">全部</option>
+              <option value="精准营销">精准营销</option>
+              <option value="关怀营销">关怀营销</option>
+              <option value="促销营销">促销营销</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-sa-reset"><i class="fas fa-redo"></i> 重置</button>
+            <button type="button" class="btn btn-primary" id="btn-sa-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>策略列表</span>
+            <span class="muted" id="sa-count" style="font-size:12px;font-weight:normal"></span>
+            <span class="muted" id="sa-selected" style="font-size:12px;font-weight:normal;margin-left:8px"></span>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table agent-sd-table">
+              <thead>
+                <tr>
+                  <th style="width:44px"><input type="checkbox" id="sa-check-all" title="全选当前页"/></th>
+                  <th style="width:140px">策略ID</th>
+                  <th style="min-width:160px">策略名称</th>
+                  <th>渠道</th>
+                  <th style="width:100px">策略状态</th>
+                  <th>业务类型</th>
+                  <th>业务线条</th>
+                  <th>创建人</th>
+                  <th style="width:150px">创建时间</th>
+                </tr>
+              </thead>
+              <tbody id="sa-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="sa-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-sa-audit">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <strong><i class="fas fa-wand-magic-sparkles"></i> AI 智能审批</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-sa-audit" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="qa-delete-hint">确认对所选策略发起 AI 智能审批？系统将创建一条审核任务，并按「策略审核规则管理」中启用的规则逐条策略进行分析。</p>
+      <div class="qa-delete-preview" id="sa-audit-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-sa-audit">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-sa-audit-confirm"><i class="fas fa-paper-plane"></i> 确认提交</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-strategy-approval.js"></script>
+</body>
+</html>

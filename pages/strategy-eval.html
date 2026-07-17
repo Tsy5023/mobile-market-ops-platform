@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略评估 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='strategy-eval.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb">
+          <a href="../index.html">首页</a> / 能力中心 / 评估中心 / 策略评估
+          · <a href="strategy-category.html?tab=segment">策略分类</a>
+        </div>
+
+        <div id="eval-view-list" class="module-view active">
+          <div class="page-header">
+            <div>
+              <h1>策略评估</h1>
+            </div>
+          </div>
+          <div class="page-filter-form">
+            <div class="filter-field">
+              <label for="eval-filter-name">活动名称</label>
+              <input type="text" id="eval-filter-name" class="wide" placeholder="请输入"/>
+            </div>
+            <div class="filter-field">
+              <label for="eval-filter-channel">渠道</label>
+              <select id="eval-filter-channel">
+                <option value="">全部渠道</option>
+                <option value="10085外呼营销">10085外呼营销</option>
+                <option value="中国移动APP">中国移动APP</option>
+                <option value="营业厅网台">营业厅网台</option>
+                <option value="10086呼入弹屏">10086呼入弹屏</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button type="button" class="btn btn-primary" id="btn-eval-filter"><i class="fas fa-search"></i> 查询</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span>活动执行列表</span>
+              <span class="muted" id="eval-list-count" style="font-size:12px;font-weight:normal"></span>
+            </div>
+            <div class="card-body table-scroll" style="padding:0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>活动ID</th>
+                    <th>活动名称</th>
+                    <th>地市</th>
+                    <th>区县</th>
+                    <th>渠道</th>
+                    <th>总用户数</th>
+                    <th>接触用户数</th>
+                    <th>成功用户数</th>
+                    <th>活动执行时间</th>
+                  </tr>
+                </thead>
+                <tbody id="eval-list-tbody"></tbody>
+              </table>
+              <div class="table-pagination" id="eval-list-pagination"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/strategy-lifecycle.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/strategy-eval-page.js"></script>
+</body>
+</html>

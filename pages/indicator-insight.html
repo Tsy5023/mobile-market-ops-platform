@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>指标洞察 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/indicator-scenario-demo.js"></script>
+  <script src="../assets/js/indicator-insight-data.js"></script>
+  <script src="../assets/js/indicator-tree-he-churn-data.js"></script>
+  <script src="../assets/js/indicator-tree-traffic-flow-data.js"></script>
+  <script>const CURRENT_PAGE='indicator-insight.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span><i class="fas fa-bell"></i> 消息</span>
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 能力中心 / 洞察中心 / 指标洞察</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+          <h1 style="margin:0">指标洞察</h1>
+        </div>
+
+        <div class="page-filter-form insight-filter-form">
+          <div class="filter-field">
+            <label for="filter-name">指标树名称</label>
+            <input type="text" id="filter-name" placeholder="请输入指标树名称"/>
+          </div>
+          <div class="filter-field">
+            <label for="filter-category">分类</label>
+            <select id="filter-category">
+              <option value="">全部</option>
+              <option value="traffic">流量运营</option>
+              <option value="stock">存量运营</option>
+              <option value="niche">细分市场运营</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-status">指标状态</label>
+            <select id="filter-status">
+              <option value="">全部</option>
+              <option value="alert">含异常指标</option>
+              <option value="normal">无异常</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" id="btn-query"><i class="fas fa-search"></i> 查询</button>
+            <button type="button" class="btn btn-outline" id="btn-reset"><i class="fas fa-redo"></i> 重置</button>
+          </div>
+        </div>
+
+        <div class="category-tabs" id="category-tabs"></div>
+
+        <div class="tree-card-grid" id="tree-card-grid"></div>
+      </main>
+      <footer class="footer-bar">
+        <span><span class="dot"></span>共 <strong id="total-trees">0</strong> 棵指标树</span>
+        <span>数据更新：2026-05-20 14:35</span>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script>
+  const urlParams = new URLSearchParams(location.search);
+  let activeCategory = urlParams.get('tab') || urlParams.get('category') || 'all';
+  if (activeCategory === 'high-end') activeCategory = 'stock';
+  let filterName = '';
+  let filterCategory = '';
+  let filterStatus = '';
+
+  function syncFiltersWithTab() {
+    const catEl = document.getElementById('filter-category');
+    if (activeCategory === 'all') {
+      filterCategory = '';
+      if (catEl) catEl.value = '';
+    } else {
+      filterCategory = activeCategory;
+      if (catEl) catEl.value = activeCategory;
+    }
+    if (activeCategory === 'traffic') {
+      filterName = '';
+      const nameEl = document.getElementById('filter-name');
+      if (nameEl) nameEl.value = '';
+    }
+  }
+
+  function countByCategory(key) {
+    if (key === 'all') return INDICATOR_TREES.length;
+    return INDICATOR_TREES.filter(t => t.categoryKey === key).length;
+  }
+
+  function renderCategoryTabs() {
+    const el = document.getElementById('category-tabs');
+    el.innerHTML = CATEGORY_TABS.map(tab => `
+      <button type="button" class="${tab.key === activeCategory ? 'active' : ''}" data-key="${tab.key}">
+        ${tab.label}<span class="count">${countByCategory(tab.key)}</span>
+      </button>
+    `).join('');
+    el.querySelectorAll('button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeCategory = btn.dataset.key;
+        syncFiltersWithTab();
+        renderCategoryTabs();
+        renderCards();
+      });
+    });
+  }
+
+  function getFilteredTrees() {
+    return INDICATOR_TREES.filter(t => {
+      if (activeCategory !== 'all' && t.categoryKey !== activeCategory) return false;
+      if (filterName && !t.name.includes(filterName)) return false;
+      if (filterCategory && t.categoryKey !== filterCategory) return false;
+      if (filterStatus === 'alert' && !t.hasAlert) return false;
+      if (filterStatus === 'normal' && t.hasAlert) return false;
+      return true;
+    });
+  }
+
+  function applyFilters() {
+    filterName = (document.getElementById('filter-name').value || '').trim();
+    filterCategory = document.getElementById('filter-category').value;
+    filterStatus = document.getElementById('filter-status').value;
+    renderCards();
+  }
+
+  function resetFilters() {
+    document.getElementById('filter-name').value = '';
+    document.getElementById('filter-category').value = '';
+    document.getElementById('filter-status').value = '';
+    filterName = '';
+    filterCategory = '';
+    filterStatus = '';
+    renderCards();
+  }
+
+  function renderCards() {
+    const list = getFilteredTrees();
+    const grid = document.getElementById('tree-card-grid');
+    document.getElementById('total-trees').textContent = INDICATOR_TREES.length;
+
+    if (!list.length) {
+      grid.innerHTML = '<div class="empty-cards"><i class="fas fa-folder-open" style="font-size:40px;margin-bottom:12px"></i><p>暂无匹配的指标树</p></div>';
+      return;
+    }
+
+    grid.innerHTML = list.map(t => `
+      <article class="tree-card ${t.hasAlert ? 'has-alert' : ''}" data-id="${t.id}">
+        <h3 class="card-title">${t.name}</h3>
+        <div class="meta">
+          <span><i class="fas fa-tag"></i> 分类：${t.category}</span>
+          <span><i class="fas fa-chart-bar"></i> 指标数量：${t.metricCount} 个</span>
+          <span><i class="fas fa-clock"></i> 更新：${t.updatedAt}</span>
+          <span><i class="fas fa-${t.hasAlert ? 'triangle-exclamation' : 'circle-check'}" style="color:${t.hasAlert ? '#dc2626' : '#22c55e'}"></i>
+            ${t.hasAlert ? '含异常指标' : '指标正常'}
+          </span>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="btn btn-primary btn-detail" data-id="${t.id}"><i class="fas fa-arrow-right"></i> 详情</button>
+        </div>
+      </article>
+    `).join('');
+
+    grid.querySelectorAll('.tree-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.card-actions')) return;
+        goDetail(card.dataset.id);
+      });
+    });
+    grid.querySelectorAll('.btn-detail').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); goDetail(btn.dataset.id); });
+    });
+  }
+
+  function goDetail(id) {
+    const resolved = typeof resolveInsightTreeId === 'function' ? resolveInsightTreeId(id) : id;
+    location.href = 'indicator-tree-detail.html?id=' + encodeURIComponent(resolved);
+  }
+
+  document.getElementById('btn-query').addEventListener('click', applyFilters);
+  document.getElementById('btn-reset').addEventListener('click', resetFilters);
+  document.getElementById('filter-name').addEventListener('keydown', e => {
+    if (e.key === 'Enter') applyFilters();
+  });
+
+  if (window.DEMO_SCENARIO && activeCategory === 'stock' && !urlParams.get('tab') && !urlParams.get('category')) {
+    document.getElementById('filter-name').value = window.DEMO_SCENARIO.treeName;
+    filterName = window.DEMO_SCENARIO.treeName;
+    filterCategory = 'stock';
+    document.getElementById('filter-category').value = 'stock';
+    const footer = document.querySelector('.footer-bar span:last-child');
+    if (footer) footer.textContent = '数据更新：' + window.DEMO_SCENARIO.updatedAt;
+  } else {
+    syncFiltersWithTab();
+  }
+
+  if (!CATEGORY_TABS.some(t => t.key === activeCategory)) activeCategory = 'all';
+
+  renderCategoryTabs();
+  renderCards();
+</script>
+</body>
+</html>

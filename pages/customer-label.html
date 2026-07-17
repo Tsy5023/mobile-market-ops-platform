@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+
+  <meta charset="UTF-8"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>客户标签管理 - 移动市场运营平台</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+
+  <link rel="stylesheet" href="../assets/css/config-mgmt.css"/>
+
+  <script src="../assets/js/nav-data.js"></script>
+
+  <script src="../assets/js/customer-label-data.js"></script>
+
+  <script>const CURRENT_PAGE='customer-label.html';</script>
+
+</head>
+
+<body>
+
+<div class="app-shell">
+
+  <header class="top-nav">
+
+    <div class="brand"><span>移动市场运营平台</span></div>
+
+    <nav class="nav-l1" id="nav-l1"></nav>
+
+    <div class="top-actions">
+
+      <span>李敏 · 系统配置员</span>
+
+      <div class="avatar"></div>
+
+    </div>
+
+  </header>
+
+  <div class="main-row">
+
+    <aside class="sidebar">
+
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+
+    </aside>
+
+    <div class="content-wrap">
+
+      <main class="content-area">
+
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 客群和标签管理 / 客户标签管理</div>
+
+        <div class="page-header">
+
+          <h1 style="margin:0">客户标签管理</h1>
+
+        </div>
+
+
+
+        <div class="page-filter-form config-filter-form" id="label-filter">
+
+          <div class="filter-field">
+
+            <label for="f-tag-id">标签 id</label>
+
+            <input type="text" id="f-tag-id" placeholder="请输入"/>
+
+          </div>
+
+          <div class="filter-field">
+
+            <label for="f-name">标签名称</label>
+
+            <input type="text" id="f-name" class="wide" placeholder="请输入"/>
+
+          </div>
+
+          <div class="filter-field">
+
+            <label for="f-category">标签分类</label>
+
+            <select id="f-category">
+
+              <option value="">全部</option>
+
+              <option value="客户等级">客户等级</option>
+
+              <option value="行为异动">行为异动</option>
+
+              <option value="风险预警">风险预警</option>
+
+              <option value="流量运营">流量运营</option>
+
+              <option value="合约运营">合约运营</option>
+
+              <option value="自定义">自定义</option>
+
+              <option value="家庭运营">家庭运营</option>
+
+              <option value="维系触达">维系触达</option>
+
+            </select>
+
+          </div>
+
+          <div class="filter-field">
+
+            <label for="f-type">标签类型</label>
+
+            <select id="f-type">
+
+              <option value="">全部</option>
+
+              <option value="固定标签">固定标签</option>
+
+              <option value="自定义标签">自定义标签</option>
+
+            </select>
+
+          </div>
+
+          <div class="filter-field">
+
+            <label for="f-sensitive">是否敏感</label>
+
+            <select id="f-sensitive">
+
+              <option value="">全部</option>
+
+              <option value="是">是</option>
+
+              <option value="否">否</option>
+
+            </select>
+
+          </div>
+
+          <div class="filter-field">
+
+            <label for="f-biz-type">业务类型</label>
+
+            <select id="f-biz-type">
+
+              <option value="">全部</option>
+
+              <option value="存量运营">存量运营</option>
+
+              <option value="离网维系">离网维系</option>
+
+              <option value="降档防控">降档防控</option>
+
+              <option value="流量运营">流量运营</option>
+
+              <option value="合约运营">合约运营</option>
+
+              <option value="家庭运营">家庭运营</option>
+
+              <option value="升档营销">升档营销</option>
+
+            </select>
+
+          </div>
+
+          <div class="filter-actions">
+
+            <button type="button" class="btn btn-outline" id="btn-reset"><i class="fas fa-redo"></i> 重置</button>
+
+            <button type="button" class="btn btn-primary" id="btn-query"><i class="fas fa-search"></i> 搜索</button>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="card">
+
+          <div class="card-body" style="padding:0">
+
+            <div class="table-scroll">
+
+              <table class="data-table config-table">
+
+                <thead>
+
+                  <tr>
+
+                    <th>标签名称</th>
+
+                    <th>标签 id</th>
+
+                    <th>标签分类</th>
+
+                    <th>标签类型</th>
+
+                    <th>是否敏感</th>
+
+                    <th>更新周期</th>
+
+                    <th>业务类型</th>
+
+                    <th>操作</th>
+
+                  </tr>
+
+                </thead>
+
+                <tbody id="label-tbody"></tbody>
+
+              </table>
+
+            </div>
+
+            <div class="table-pagination" id="label-pagination"></div>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal-overlay" id="modal-label-detail">
+
+  <div class="modal-box" style="width:min(92vw,720px)">
+
+    <div class="modal-head">
+
+      <strong>标签详情</strong>
+
+      <button type="button" class="modal-close" data-close-modal="modal-label-detail"><i class="fas fa-times"></i></button>
+
+    </div>
+
+    <div class="modal-body modal-detail-readonly" id="label-detail-body"></div>
+
+    <div class="modal-foot">
+
+      <button type="button" class="btn btn-outline" data-close-modal="modal-label-detail">关闭</button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<script src="../assets/js/layout.js"></script>
+
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/customer-label.js"></script>
+
+</body>
+
+</html>
+

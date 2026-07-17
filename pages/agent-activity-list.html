@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>活动列表 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-category.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/strategy-lifecycle.js"></script>
+  <script src="../assets/js/agent-strategy-diagnosis-data.js"></script>
+  <script>const CURRENT_PAGE='agent-activity-list.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 活动列表</div>
+
+        <div class="agent-sd-intro">
+          <i class="fas fa-wand-magic-sparkles"></i>
+          <div>
+            <strong>策略智能诊断 · 活动列表</strong><br/>
+            接入 IOP 策略数据，支持对单条策略发起 AI 智能诊断，诊断结果可在 AI 策略诊断列表中查看。
+          </div>
+        </div>
+
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <h1>活动列表</h1>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <a href="agent-diagnosis-list.html" class="btn btn-outline btn-sm"><i class="fas fa-stethoscope"></i> AI策略诊断列表</a>
+          </div>
+        </div>
+
+        <nav class="agent-activity-tabs" id="activity-tabs" aria-label="活动范围">
+          <button type="button" class="active" data-tab="all">全部活动</button>
+          <button type="button" data-tab="mine">我的活动</button>
+          <button type="button" data-tab="all_strategy">全部策略</button>
+          <button type="button" data-tab="my_strategy">我的策略</button>
+          <button type="button" data-tab="excellent">优秀策略</button>
+        </nav>
+
+        <div class="agent-activity-filter">
+          <div class="filter-field">
+            <label for="af-strategy-id">策略ID</label>
+            <input type="text" id="af-strategy-id" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="af-strategy-name">策略名称</label>
+            <input type="text" id="af-strategy-name" placeholder="请输入"/>
+          </div>
+          <div class="filter-field filter-field-date">
+            <label>创建时间</label>
+            <div class="date-range">
+              <input type="date" id="af-create-start"/>
+              <span>至</span>
+              <input type="date" id="af-create-end"/>
+            </div>
+          </div>
+          <div class="filter-field">
+            <label for="af-status">策略状态</label>
+            <select id="af-status">
+              <option value="">全部</option>
+              <option value="draft">草稿</option>
+              <option value="pending_approval">审批中</option>
+              <option value="pending_exec">待执行</option>
+              <option value="executing">执行中</option>
+              <option value="completed">完成</option>
+              <option value="terminated">终止</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="af-business-line">业务线条</label>
+            <select id="af-business-line">
+              <option value="">全部</option>
+              <option value="公众市场">公众市场</option>
+              <option value="政企市场">政企市场</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="af-channel">渠道名称</label>
+            <input type="text" id="af-channel" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="af-position">运营位名称</label>
+            <input type="text" id="af-position" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="af-product">产品名称</label>
+            <input type="text" id="af-product" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="af-product-code">产品编码</label>
+            <input type="text" id="af-product-code" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="af-business-type">业务类型</label>
+            <select id="af-business-type">
+              <option value="">全部</option>
+              <option value="精准营销">精准营销</option>
+              <option value="关怀营销">关怀营销</option>
+              <option value="促销营销">促销营销</option>
+            </select>
+          </div>
+          <div class="agent-activity-filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-af-reset"><i class="fas fa-redo"></i> 重置</button>
+            <button type="button" class="btn btn-primary" id="btn-af-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>策略列表</span>
+            <span class="muted" id="activity-count" style="font-size:12px;font-weight:normal"></span>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table agent-sd-table">
+              <thead>
+                <tr>
+                  <th style="width:140px">策略ID</th>
+                  <th style="min-width:160px">策略名称</th>
+                  <th>渠道</th>
+                  <th>运营位</th>
+                  <th>产品信息</th>
+                  <th>客户群数量</th>
+                  <th>业务类型</th>
+                  <th>业务线条</th>
+                  <th>服务大类标签</th>
+                  <th style="width:88px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="activity-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="activity-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-diag-trigger">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <strong><i class="fas fa-stethoscope"></i> 触发策略诊断</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-diag-trigger" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="qa-delete-hint">确认对该策略发起 AI 智能诊断？系统将依据已启用的诊断规则、预演规则与客群画像规则进行分析。</p>
+      <div class="qa-delete-preview" id="diag-trigger-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-diag-trigger">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-diag-trigger-confirm"><i class="fas fa-play"></i> 确认触发</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-activity-list.js"></script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>指标树详情 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/indicator-scenario-demo.js"></script>
+  <script src="../assets/js/indicator-insight-data.js"></script>
+  <script src="../assets/js/indicator-segment-split-data.js"></script>
+  <script src="../assets/js/indicator-segment-data.js"></script>
+  <script src="../assets/js/strategy-nav.js"></script>
+<script src="../assets/js/segment-city-portrait.js"></script>
+  <script src="../assets/js/metric-dispatch-store.js"></script>
+  <script src="../assets/js/indicator-caretaker-data.js"></script>
+  <script src="../assets/js/metric-dispatch-ui.js"></script>
+  <script src="../assets/js/indicator-tree-he-churn-data.js"></script>
+  <script src="../assets/js/indicator-tree-traffic-flow-data.js"></script>
+  <script>const CURRENT_PAGE='indicator-insight.html';</script>
+</head>
+<body class="page-indicator-tree-detail">
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb">
+          <a href="../index.html">首页</a> / 能力中心 / 洞察中心 /
+          <a href="indicator-insight.html">指标洞察</a> / <span id="breadcrumb-name">指标树详情</span>
+        </div>
+
+        <div class="drill-path" id="jx-drill-bar"></div>
+
+        <div class="jx-tree-notice-bar" id="jx-tree-notice-bar" role="note">
+          <div class="jx-tree-notice-body">
+            <i class="fas fa-info-circle jx-tree-notice-icon" aria-hidden="true"></i>
+            <div class="jx-tree-notice-text">
+              <p>① 指标树异动指标识别当前只针对地市指标。② 指标树节点修改后，异动识别与根因分析报告需重新生成，预计需要 1 天时间。</p>
+            </div>
+          </div>
+          <button type="button" class="jx-tree-notice-close" data-dismiss-tree-notice aria-label="关闭提示">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="metric-region-drawer-overlay" id="metric-region-drawer-overlay" hidden></div>
+        <aside class="metric-region-drawer" id="metric-region-drawer" hidden aria-label="指标地域分析">
+          <div class="metric-region-drawer-head">
+            <div class="metric-region-drawer-titles">
+              <strong id="metric-region-drawer-title">—</strong>
+              <p class="muted" id="metric-region-drawer-sub">地市维度数据分析</p>
+            </div>
+            <div class="metric-region-drawer-actions">
+              <button type="button" class="btn btn-outline btn-sm" id="btn-drawer-root-cause"><i class="fas fa-sitemap"></i> 根因分析</button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-drawer-metric-dispatch"><i class="fas fa-bullseye"></i> 指标调度</button>
+              <button type="button" class="metric-region-drawer-close" id="btn-close-region-drawer" aria-label="关闭"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <div class="metric-region-drawer-body" id="metric-region-drawer-body"></div>
+        </aside>
+
+        <div class="h-tree-stage tree-detail-stage" id="h-tree-stage">
+          <div class="h-tree-canvas-toolbar" id="h-tree-canvas-toolbar">
+            <div class="h-tree-toolbar-group h-tree-toolbar-expand" role="group" aria-label="展开控制">
+              <button type="button" class="btn btn-outline btn-sm" id="btn-tree-expand-all"><i class="fas fa-expand"></i> 全部展开</button>
+              <button type="button" class="btn btn-outline btn-sm" id="btn-tree-collapse-all"><i class="fas fa-compress"></i> 全部收起</button>
+              <div class="h-tree-quick-expand" id="h-tree-quick-expand">
+                <button type="button" class="btn btn-outline btn-sm" id="btn-tree-quick-expand" aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-layer-group"></i> 快速展开 <i class="fas fa-caret-down h-tree-quick-caret"></i>
+                </button>
+                <div class="h-tree-quick-expand-menu" id="h-tree-quick-expand-menu" role="menu" aria-label="选择展开层级"></div>
+              </div>
+              <div class="h-tree-metric-search" id="h-tree-metric-search">
+                <button type="button" class="btn btn-outline btn-sm" id="btn-tree-metric-search" aria-haspopup="true" aria-expanded="false" title="指标检索">
+                  <i class="fas fa-search"></i> 指标检索
+                </button>
+                <div class="h-tree-metric-search-panel" id="h-tree-metric-search-panel" role="dialog" aria-label="指标检索">
+                  <div class="h-tree-metric-search-head">
+                    <i class="fas fa-search h-tree-metric-search-ico"></i>
+                    <input type="search" class="h-tree-metric-search-input" id="h-tree-metric-search-input"
+                           placeholder="模糊搜索指标或分类…" autocomplete="off" />
+                  </div>
+                  <div class="h-tree-metric-search-meta" id="h-tree-metric-search-meta"></div>
+                  <div class="h-tree-metric-search-list" id="h-tree-metric-search-list" role="listbox"></div>
+                </div>
+              </div>
+            </div>
+            <div class="h-tree-toolbar-group h-tree-toolbar-view" role="group" aria-label="画布视图">
+              <button type="button" class="btn btn-outline btn-sm btn-icon" id="btn-tree-fullscreen" title="全屏"><i class="fas fa-expand-arrows-alt"></i></button>
+              <button type="button" class="btn btn-outline btn-sm btn-icon" id="btn-tree-view-reset" title="回到初始位置"><i class="fas fa-crosshairs"></i></button>
+              <button type="button" class="btn btn-outline btn-sm btn-icon" id="btn-tree-zoom-in" title="放大"><i class="fas fa-search-plus"></i></button>
+              <button type="button" class="btn btn-outline btn-sm btn-icon" id="btn-tree-zoom-out" title="缩小"><i class="fas fa-search-minus"></i></button>
+              <span class="h-tree-zoom-label" id="h-tree-zoom-label">100%</span>
+            </div>
+          </div>
+          <div class="h-tree-canvas" id="h-tree-canvas">
+            <div class="h-tree-pan-layer" id="h-tree-pan-layer">
+              <div class="h-tree-zoom-space" id="h-tree-zoom-space">
+                <svg class="h-tree-links-svg" id="h-tree-links-svg" aria-hidden="true"></svg>
+                <div class="h-tree-zoom-inner" id="h-tree-zoom-inner">
+                  <div class="h-tree-wrap">
+                    <div id="h-tree-container"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="metric-hover-popover is-hidden" id="metric-hover-popover" role="menu" aria-label="指标操作">
+              <div class="metric-hover-popover-head">
+                <strong id="metric-hover-name">—</strong>
+              </div>
+              <div class="metric-hover-actions" id="metric-hover-actions"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <footer class="footer-bar">
+        <span><span class="dot"></span>指标树详情</span>
+        <span id="footer-updated">—</span>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- 指标详情弹窗 -->
+<div class="modal-overlay" id="modal-metric-detail">
+  <div class="modal-box modal-metric-fullscreen">
+    <div class="modal-head">
+      <strong id="modal-metric-name" style="font-size:17px">指标名称</strong>
+      <button class="modal-close" data-close-modal="modal-metric-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="metric-meta-panel--rc" id="metric-meta-panel-rc">
+        <div class="metric-meta-rc-grid">
+          <div class="metric-meta-item">
+            <span class="k">指标编码</span><span class="v" id="modal-metric-code">—</span>
+          </div>
+          <div class="metric-meta-item metric-meta-item--caliber">
+            <span class="k">业务口径</span><span class="v" id="modal-metric-caliber" title="">—</span>
+          </div>
+          <div class="metric-meta-item">
+            <span class="k">指标更新时间</span><span class="v" id="modal-meta-updated">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-common-stats modal-common-stats--hidden" hidden aria-hidden="true">
+        <div class="common-stat"><span class="label">当前值</span><span class="value" id="common-current">—</span></div>
+        <div class="common-stat"><span class="label">目标值</span><span class="value" id="common-target">—</span></div>
+        <div class="common-stat"><span class="label">同比</span><span class="value" id="common-yoy">—</span></div>
+        <div class="common-stat"><span class="label">环比</span><span class="value" id="common-mom">—</span></div>
+      </div>
+
+      <div class="detail-modal-tabs detail-modal-tabs-hidden" style="display:none">
+        <button type="button" class="active" data-tab="rootcause">根因分析</button>
+      </div>
+
+      <!-- 根因分析 -->
+      <div class="detail-tab-panel active" data-tab="rootcause">
+        <div id="root-cause-flow">
+          <p style="text-align:center;color:#94a3b8;padding:32px;font-size:13px">请点击指标树中的指标节点查看根因分析流程</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- 调度记录列表 -->
+<div class="modal-overlay" id="modal-tree-dispatch-records">
+  <div class="modal-box modal-tree-dispatch-records">
+    <div class="modal-head tree-alert-modal-head">
+      <div class="tree-alert-modal-head-main tree-dispatch-modal-head-main">
+        <strong id="tree-dispatch-records-title">调度记录</strong>
+        <label class="tree-dispatch-month-label" for="tree-dispatch-records-month">
+          <span>数据月份</span>
+          <input type="month" class="jx-period-input jx-period-input-compact" id="tree-dispatch-records-month"/>
+        </label>
+      </div>
+      <button class="modal-close" data-close-modal="modal-tree-dispatch-records"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body tree-alert-modal-body">
+      <div class="table-scroll tree-alert-table-wrap">
+        <table class="data-table tree-dispatch-records-table">
+          <thead>
+            <tr>
+              <th>调度工单号</th>
+              <th>工单名称</th>
+              <th>调度类型</th>
+              <th>工单创建时间</th>
+              <th>创建人</th>
+              <th class="tree-alert-ops-th">操作</th>
+            </tr>
+          </thead>
+          <tbody id="tree-dispatch-records-tbody"></tbody>
+        </table>
+        <div class="table-pagination compact-pagination" id="tree-dispatch-records-pagination"></div>
+      </div>
+    </div>
+    <div class="modal-foot tree-alert-modal-foot">
+      <span class="muted tree-alert-foot-hint" id="tree-dispatch-records-hint"></span>
+      <button type="button" class="btn btn-outline" data-close-modal="modal-tree-dispatch-records">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 异动指标列表 -->
+<div class="modal-overlay" id="modal-tree-alert-list">
+  <div class="modal-box modal-tree-alert-list">
+    <div class="modal-head tree-alert-modal-head">
+      <div class="tree-alert-modal-head-main">
+        <strong id="tree-alert-list-title">异动指标</strong>
+      </div>
+      <button class="modal-close" data-close-modal="modal-tree-alert-list"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="tree-alert-summary" id="tree-alert-summary" hidden></div>
+    <div class="modal-body tree-alert-modal-body">
+      <div class="table-scroll tree-alert-table-wrap">
+        <table class="data-table tree-alert-list-table">
+          <thead>
+            <tr>
+              <th>指标名称</th>
+              <th>指标值</th>
+              <th>同比</th>
+              <th>环比</th>
+              <th>客群规模</th>
+              <th class="tree-alert-ops-th">操作</th>
+            </tr>
+          </thead>
+          <tbody id="tree-alert-list-tbody"></tbody>
+        </table>
+        <div class="table-pagination compact-pagination" id="tree-alert-list-pagination"></div>
+      </div>
+    </div>
+    <div class="modal-foot tree-alert-modal-foot">
+      <span class="muted tree-alert-foot-hint" id="tree-alert-foot-hint"></span>
+      <button type="button" class="btn btn-outline" data-close-modal="modal-tree-alert-list">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 根因链路 · 大模型链路分析 -->
+<div class="modal-overlay" id="modal-rc-chain-llm">
+  <div class="modal-box modal-rc-chain-llm">
+    <div class="modal-head">
+      <div>
+        <strong id="rc-chain-llm-title" style="font-size:17px">链路分析</strong>
+        <p id="rc-chain-llm-subtitle" class="rc-chain-llm-modal-sub" style="margin:4px 0 0;font-size:12px;color:#64748b;font-weight:normal"></p>
+      </div>
+      <button class="modal-close" data-close-modal="modal-rc-chain-llm"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="rc-chain-llm-body"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-rc-chain-llm">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 根因链路 · 客群画像分析 -->
+<div class="modal-overlay" id="modal-rc-chain-portrait">
+  <div class="modal-box modal-rc-chain-portrait">
+    <div class="modal-head">
+      <div>
+        <strong id="rc-portrait-modal-title" style="font-size:17px">画像分析</strong>
+        <p id="rc-portrait-modal-subtitle" class="rc-portrait-modal-sub" style="margin:4px 0 0;font-size:12px;color:#64748b;font-weight:normal"></p>
+      </div>
+      <button class="modal-close" data-close-modal="modal-rc-chain-portrait"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="rc-portrait-modal-body"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-rc-chain-portrait">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 客群画像 - 江西省地市维度 -->
+<div class="modal-overlay" id="modal-segment-city-portrait">
+  <div class="modal-box modal-seg-city-lg">
+    <div class="modal-head">
+      <div>
+        <strong id="seg-city-modal-title" style="font-size:17px">客群画像 · 地市维度</strong>
+        <p id="seg-city-modal-subtitle" class="seg-city-modal-sub" style="margin:4px 0 0;font-size:12px;color:#64748b;font-weight:normal"></p>
+      </div>
+      <button class="modal-close" data-close-modal="modal-segment-city-portrait"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="seg-city-modal-body"></div>
+  </div>
+</div>
+
+<!-- 地域分析 -->
+<div class="modal-overlay" id="modal-region-analysis">
+  <div class="modal-box modal-region-analysis modal-region-analysis-fullscreen">
+    <div class="modal-head">
+      <strong style="font-size:17px"><i class="fas fa-map-marked-alt"></i> 地域分析</strong>
+      <button class="modal-close" data-close-modal="modal-region-analysis"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="region-analysis-toolbar">
+      <div id="region-preset-templates" class="region-preset-section"></div>
+    </div>
+    <div class="modal-body region-analysis-body">
+      <p class="region-analysis-perm-hint muted" id="region-analysis-perm-hint" hidden>
+        <i class="fas fa-info-circle"></i> 展示地域与当前账号权限相关
+      </p>
+      <div class="region-analysis-table-scroll" id="region-analysis-table-wrap"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 地域分析 · 模板名称/备注 -->
+<div class="modal-overlay" id="modal-region-tpl-form">
+  <div class="modal-box modal-region-tpl-form">
+    <div class="modal-head">
+      <strong id="region-tpl-form-title">保存分析模板</strong>
+      <button class="modal-close" data-close-modal="modal-region-tpl-form"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="region-tpl-form-field">
+        <label for="region-tpl-form-name">模板名称</label>
+        <input type="text" id="region-tpl-form-name" maxlength="80" placeholder="请输入模板名称">
+      </div>
+      <div class="region-tpl-form-field">
+        <label for="region-tpl-form-desc">备注</label>
+        <textarea id="region-tpl-form-desc" rows="3" maxlength="200" placeholder="请输入备注说明"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-region-tpl-form">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-region-tpl-form-confirm">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- 指标调度向导 -->
+<div class="modal-overlay" id="modal-metric-dispatch">
+  <div class="modal-box modal-metric-dispatch-lg">
+    <div class="modal-head modal-head--dispatch">
+      <div class="modal-head-titles">
+        <strong>指标调度</strong>
+        <span class="modal-head-sub">选择调度方式并完成派发</span>
+      </div>
+      <button class="modal-close" data-close-modal="modal-metric-dispatch"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="metric-dispatch-wizard-body"></div>
+    <div class="modal-foot dispatch-wizard-foot" id="metric-dispatch-wizard-foot"></div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/jiangxi-drill.js"></script>
+<script src="../assets/js/rc-tag-tree-data.js"></script>
+<script src="../assets/js/rc-tag-tree-ui.js"></script>
+<script src="../assets/js/rc-chain-portrait.js"></script>
+<script src="../assets/js/rc-chain-llm-analysis.js"></script>
+<script src="../assets/js/traffic-flow-rca-report.js"></script>
+<script src="../assets/js/anomaly-report.js"></script>
+  <script src="../assets/js/rc-analysis-report.js"></script>
+  <script src="../assets/js/root-cause-flow.js"></script>
+  <script src="../assets/js/segment-dispatch.js"></script>
+  <script src="../assets/js/strategy-lifecycle.js"></script>
+  <script src="../assets/js/indicator-region-analysis.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/indicator-tree-detail.js"></script>
+<script>
+  const params = new URLSearchParams(location.search);
+  const rawTreeId = params.get('id') || (window.DEMO_SCENARIO?.treeId || 'tree-he-churn');
+  const treeId = typeof resolveInsightTreeId === 'function' ? resolveInsightTreeId(rawTreeId) : rawTreeId;
+  const treeMeta = INDICATOR_TREES.find(t => t.id === rawTreeId || t.id === treeId)
+    || INDICATOR_TREES.find(t => t.name === '中高端客户流失指标树');
+  const detail = getTreeDetail(rawTreeId);
+
+  document.getElementById('breadcrumb-name').textContent = detail.name;
+  if (treeMeta) document.getElementById('footer-updated').textContent = '更新：' + treeMeta.updatedAt;
+
+  function isAlertNode(n) { return n.status === 'alert' || n.alert; }
+
+  function refreshTreeForContext() {
+    if (window._currentTreeRoot && typeof renderHorizontalTree === 'function') {
+      renderHorizontalTree(window._currentTreeRoot);
+    }
+    if (window.updateTreeAlertBadge) window.updateTreeAlertBadge();
+    if (window.refreshMetricRegionDrawerIfOpen) window.refreshMetricRegionDrawerIfOpen();
+    if (window.RegionAnalysis?.refreshForContext) window.RegionAnalysis.refreshForContext();
+  }
+
+  renderJiangxiDrill();
+  window.onJxDrillChange = function(s) {
+    const el = document.getElementById('alert-drill-region');
+    if (el) el.textContent = s.community?.name || s.grid?.name || s.county?.name || s.city?.name || '江西省';
+    refreshTreeForContext();
+  };
+  window.onJxPeriodChange = function() {
+    refreshTreeForContext();
+  };
+
+    if (detail && detail.root) {
+    window._currentTreeDetail = detail;
+    renderHorizontalTree(detail.root);
+    if (typeof expandTreeToDepth === 'function') expandTreeToDepth(detail.root, 2);
+
+    document.getElementById('btn-tree-expand-all')?.addEventListener('click', () => {
+      if (window._currentTreeRoot) expandAllTree(window._currentTreeRoot);
+    });
+    document.getElementById('btn-tree-collapse-all')?.addEventListener('click', () => {
+      if (window._currentTreeRoot) collapseAllTree(window._currentTreeRoot);
+    });
+    if (typeof bindTreeCanvasViewControls === 'function') bindTreeCanvasViewControls();
+
+    const metricIdParam = params.get('metricId');
+    if (metricIdParam) {
+      function findNode(n, id) {
+        if (!n) return null;
+        if (n.id === id) return n;
+        for (const c of n.children || []) {
+          const f = findNode(c, id);
+          if (f) return f;
+        }
+        return null;
+      }
+      const target = findNode(detail.root, metricIdParam);
+      if (target && typeof openMetricDetail === 'function') {
+        setTimeout(() => openMetricDetail(target, 'rootcause'), 400);
+      }
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>运营概览配置（730） - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/overview-config.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/alert-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='workbench-config.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 配置管理 / 运营概览配置（730）</div>
+
+        <!-- 专区列表 -->
+        <div id="ovcfg-list-view">
+          <div class="page-header ovcfg-page-header">
+            <div>
+              <h1>运营概览配置（730）</h1>
+              <p>选择运营专区概览，配置首页一级标题与下属指标</p>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span>运营专区概览列表</span>
+              <span class="muted" id="ovcfg-zone-count" style="font-size:12px;font-weight:normal"></span>
+            </div>
+            <div class="card-body table-scroll" style="padding:0">
+              <table class="data-table ovcfg-zone-table">
+                <thead>
+                  <tr>
+                    <th style="width:52%">专区概览</th>
+                    <th>一级标题</th>
+                    <th>指标数</th>
+                    <th>更新时间</th>
+                    <th style="width:140px">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="ovcfg-zone-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 配置编辑 -->
+        <div id="ovcfg-edit-view" hidden>
+          <div class="page-header ovcfg-edit-header">
+            <div>
+              <button type="button" class="ovcfg-back-btn" id="btn-ovcfg-back-list"><i class="fas fa-arrow-left"></i> 返回专区列表</button>
+              <h1 id="ovcfg-edit-title">专区配置</h1>
+              <p class="ovcfg-edit-sub muted" id="ovcfg-edit-sub"></p>
+            </div>
+            <div class="ovcfg-edit-actions">
+              <button type="button" class="btn btn-outline" id="btn-ovcfg-preview"><i class="fas fa-eye"></i> 预览</button>
+              <button type="button" class="btn btn-primary" id="btn-ovcfg-save"><i class="fas fa-check"></i> 保存配置</button>
+            </div>
+          </div>
+
+          <div class="ovcfg-edit-meta card">
+            <div class="card-body ovcfg-edit-meta-body">
+              <div class="ovcfg-edit-meta-item">
+                <span class="label">一级标题</span>
+                <strong id="ovcfg-section-count">0</strong>
+              </div>
+              <div class="ovcfg-edit-meta-item">
+                <span class="label">指标总数</span>
+                <strong id="ovcfg-metric-count">0</strong>
+              </div>
+              <div class="ovcfg-edit-meta-item">
+                <span class="label">上次保存</span>
+                <span id="ovcfg-updated-at">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="ovcfg-sections" class="ovcfg-sections"></div>
+
+          <div class="ovcfg-foot-actions">
+            <button type="button" class="btn btn-outline" id="btn-ovcfg-add-section"><i class="fas fa-plus"></i> 添加一级标题</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ovcfg-metric-pick">
+  <div class="modal-box modal-metric-pick">
+    <div class="modal-head">
+      <strong>选择指标</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-ovcfg-metric-pick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="metric-pick-filter">
+        <div class="filter-field">
+          <label for="ovcfg-mp-keyword">指标名称</label>
+          <input type="text" id="ovcfg-mp-keyword" placeholder="请输入指标名称或编码"/>
+        </div>
+        <div class="filter-field">
+          <label for="ovcfg-mp-algorithm-scene">算法使用场景</label>
+          <select id="ovcfg-mp-algorithm-scene">
+            <option value="">全部</option>
+            <option value="traffic_rca">流量运营根因分析</option>
+            <option value="loss_control_rca">控损运营根因分析</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="ovcfg-mp-search"><i class="fas fa-search"></i> 搜索</button>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table metric-pick-table">
+          <thead>
+            <tr>
+              <th style="width:42px"></th>
+              <th>指标编码</th>
+              <th>指标名称</th>
+              <th>默认层级</th>
+              <th>算法使用场景</th>
+              <th>统计周期</th>
+            </tr>
+          </thead>
+          <tbody id="ovcfg-mp-tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-pagination compact-pagination" id="ovcfg-mp-pagination"></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-ovcfg-metric-pick">取消</button>
+      <button type="button" class="btn btn-primary" id="ovcfg-mp-confirm">确认</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/indicator-tree-config-data.js"></script>
+<script src="../assets/js/overview-config-store.js"></script>
+<script src="../assets/js/overview-config-render.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/overview-config-page.js"></script>
+</body>
+</html>

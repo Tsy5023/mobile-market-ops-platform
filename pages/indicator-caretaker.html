@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>指标看管人 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/config-mgmt.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/indicator-metric-library.js"></script>
+  <script src="../assets/js/indicator-tree-config-data.js"></script>
+  <script src="../assets/js/indicator-tree-he-churn-data.js"></script>
+  <script src="../assets/js/indicator-caretaker-data.js"></script>
+  <script>const CURRENT_PAGE='indicator-caretaker.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>李敏 · 系统配置员</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 配置管理 / 指标看管人</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <div>
+            <h1 style="margin:0">指标看管人</h1>
+            <p class="muted" style="margin:6px 0 0;font-size:13px">看管对象从江西省统一组织系统选择；指标从指标配置库选择</p>
+          </div>
+        </div>
+
+        <div class="page-filter-form config-filter-form" id="caretaker-filter">
+          <div class="filter-field">
+            <label for="f-obj-type">看管对象类型</label>
+            <select id="f-obj-type">
+              <option value="">请选择</option>
+              <option value="person">人员</option>
+              <option value="dept">部门</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="f-obj">看管对象</label>
+            <input type="text" id="f-obj" class="wide" placeholder="人员姓名 / 部门名称"/>
+          </div>
+          <div class="filter-field">
+            <label for="f-metric">看管指标</label>
+            <input type="text" id="f-metric" class="wide" placeholder="指标名称或编码"/>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-reset"><i class="fas fa-redo"></i> 重置</button>
+            <button type="button" class="btn btn-primary" id="btn-query"><i class="fas fa-search"></i> 搜索</button>
+          </div>
+        </div>
+
+        <div class="list-toolbar">
+          <button type="button" class="btn btn-primary" id="btn-add"><i class="fas fa-user-plus"></i> 新建指标看管人</button>
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="padding:0">
+            <div class="table-scroll">
+              <table class="data-table config-table">
+                <thead>
+                  <tr>
+                    <th style="width:52px">序号</th>
+                    <th>看管对象类型</th>
+                    <th>看管对象</th>
+                    <th>看管指标</th>
+                    <th>创建时间</th>
+                    <th>创建人</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="caretaker-tbody"></tbody>
+              </table>
+            </div>
+            <div class="table-pagination" id="caretaker-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-caretaker">
+  <div class="modal-box modal-caretaker-lg">
+    <div class="modal-head">
+      <strong id="caretaker-modal-title">新建指标看管人</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-caretaker"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="caretaker-form-wrap">
+      <p class="caretaker-org-hint"><i class="fas fa-building"></i> 组织与人员数据来源于江西省统一组织/权限系统（演示同步）</p>
+      <div class="form-grid caretaker-form-grid">
+        <div class="form-field">
+          <label class="req">看管对象类型</label>
+          <select id="fm-obj-type">
+            <option value="person">人员</option>
+            <option value="dept">部门</option>
+          </select>
+        </div>
+        <div class="form-field form-field-dept-tree">
+          <label class="req">所属部门</label>
+          <div class="org-tree-select" id="fm-dept-tree-select">
+            <input type="hidden" id="fm-unit-id"/>
+            <input type="hidden" id="fm-dept-id"/>
+            <button type="button" class="org-tree-select-trigger" id="fm-dept-trigger" aria-haspopup="listbox" aria-expanded="false">
+              <span class="org-tree-select-label muted" id="fm-dept-label">请选择所属部门</span>
+              <i class="fas fa-chevron-down org-tree-select-caret"></i>
+            </button>
+            <div class="org-tree-select-panel" id="fm-dept-panel" hidden>
+              <div class="org-tree-select-tree" id="fm-dept-tree" role="tree"></div>
+            </div>
+          </div>
+        </div>
+        <div class="form-field field-fm-person">
+          <label class="req">看管人员</label>
+          <select id="fm-person" disabled><option value="">请先选择部门</option></select>
+        </div>
+        <div class="form-field" style="grid-column:1/-1">
+          <label class="req">看管指标</label>
+          <div class="metric-pick-panel">
+            <div class="metric-pick-chips" id="fm-metric-chips"><span class="muted">请点击下方按钮从指标库选择</span></div>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-pick-metrics"><i class="fas fa-list-check"></i> 从指标库选择</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot" id="caretaker-modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-caretaker">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-caretaker-save">保存</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-metric-pick">
+  <div class="modal-box" style="width:min(92vw,640px)">
+    <div class="modal-head">
+      <strong>选择看管指标</strong>
+      <span class="muted" style="font-size:12px;font-weight:normal">数据来自指标配置模块</span>
+      <button type="button" class="modal-close" data-close-modal="modal-metric-pick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="text" id="metric-pick-search" placeholder="搜索指标编码 / 名称" style="width:100%;margin-bottom:12px;padding:8px 10px;border:1px solid #e2e8f0;border-radius:8px"/>
+      <div class="metric-pick-list" id="metric-pick-list"></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-metric-pick">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-metric-pick-ok">确定</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/indicator-caretaker.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>移动市场运营平台 - 原型演示</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="assets/css/common.css"/>
+  <style>
+    html,body{height:100%;overflow:hidden}
+    .content-area{padding:0!important}
+    #main-frame{width:100%;height:100%;border:none;display:block;background:#f1f5f9}
+    .demo-badge{background:rgba(255,255,255,.2);padding:4px 10px;border-radius:6px;font-size:12px}
+  </style>
+  <script src="assets/js/nav-data.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span><i class="fas fa-bell"></i> 消息</span>
+      <span>演示账号</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">运营概览</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <iframe id="main-frame" src="pages/overview.html" title="主内容区"></iframe>
+      </main>
+    </div>
+  </div>
+</div>
+<script>
+const params=new URLSearchParams(location.search);
+let activeModule=params.get('module')||'overview';
+const frame=document.getElementById('main-frame');
+function isDevelopedPage(file){
+  return Array.isArray(window.DEVELOPED_PAGES) && DEVELOPED_PAGES.indexOf(file) >= 0;
+}
+function pageMenuLabel(file, label){
+  return label + (isDevelopedPage(file) ? '<span class="menu-dev-star"> *</span>' : '');
+}
+function renderTopNav(){
+  const el=document.getElementById('nav-l1');
+  el.innerHTML=Object.values(NAV_DATA).map(m=>'<a href="#" data-module="'+m.id+'" class="'+(m.id===activeModule?'active':'')+'">'+m.label+'</a>').join('');
+  el.querySelectorAll('a').forEach(a=>a.onclick=e=>{e.preventDefault();switchModule(a.dataset.module);});
+}
+function renderSidebar(activeFile){
+  const mod=NAV_DATA[activeModule];
+  document.getElementById('sidebar-module-title').textContent=mod.label;
+  const el=document.getElementById('sidebar-menu');
+  el.innerHTML=mod.children.map(c=>{
+    const open=c.pages.some(p=>p.file===activeFile);
+    return '<li class="'+(open?'open':'')+'"><div class="l2-label" onclick="this.parentElement.classList.toggle(\'open\')"><i class="fas fa-folder"></i> '+c.label+'</div><ul class="menu-l3">'+c.pages.map(p=>'<a href="#" data-page="'+p.file+'" data-label="'+p.label+'" class="'+(p.file===activeFile?'active':'')+'">'+pageMenuLabel(p.file,p.label)+'</a>').join('')+'</ul></li>';
+  }).join('');
+  el.querySelectorAll('.menu-l3 a').forEach(a=>a.onclick=e=>{e.preventDefault();loadPage(a.dataset.page,a.dataset.label);});
+}
+function loadPage(file,label){
+  frame.src='pages/'+file;
+  renderSidebar(file);
+}
+function switchModule(moduleId){
+  activeModule=moduleId;
+  const mod=NAV_DATA[moduleId];
+  renderTopNav();
+  loadPage(mod.defaultPage, mod.children[0].pages[0].label);
+  history.replaceState({},'', '?module='+moduleId);
+}
+renderTopNav();
+loadPage(NAV_DATA[activeModule].defaultPage);
+frame.addEventListener('load',()=>{
+  try{
+    const href=frame.contentWindow.location.pathname;
+    const file=href.split('/').pop();
+    if(file&&file.endsWith('.html')) renderSidebar(file);
+  }catch(e){}
+});
+</script>
+</body>
+</html>

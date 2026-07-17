@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>创建营销策略 - 中国移动江西</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='strategy-create.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span><small class="brand-sub">江西公司</small></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>李华 · 省公司存量运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb">
+          <a href="../index.html">首页</a> / 能力中心 / 策略中心 /
+          <a href="strategy-category.html?tab=segment">策略分类</a> / 创建策略
+        </div>
+        <div class="page-header strategy-page-header">
+          <div>
+            <h1>创建营销策略</h1>
+          </div>
+          <a href="strategy-category.html?tab=segment" class="btn btn-outline"><i class="fas fa-arrow-left"></i> 返回策略列表</a>
+        </div>
+
+        <div class="strategy-create-layout">
+          <form id="strategy-create-form" class="strategy-form">
+            <section class="strategy-form-section">
+              <h3><span class="step-num">1</span> 来源客群</h3>
+              <div id="strategy-segment-readonly"></div>
+            </section>
+
+            <section class="strategy-form-section">
+              <h3><span class="step-num">2</span> 策略基本信息</h3>
+              <div class="form-grid strategy-basic-grid">
+                <div class="form-field full">
+                  <label class="req">策略名称</label>
+                  <input type="text" id="strategy-name" name="strategyName" required placeholder="请输入策略名称"/>
+                </div>
+                <div class="form-field">
+                  <label class="req">投放周期</label>
+                  <div class="date-range-inline">
+                    <input type="date" name="startDate" value="2026-05-28" required placeholder="开始日期"/>
+                    <span class="date-range-sep">至</span>
+                    <input type="date" name="endDate" value="2026-07-31" required placeholder="结束日期"/>
+                  </div>
+                </div>
+                <div class="form-field full">
+                  <label class="req">策略描述</label>
+                  <textarea name="strategyDesc" rows="3" required placeholder="请输入策略描述"></textarea>
+                </div>
+                <div class="form-field">
+                  <label class="req">策略类型</label>
+                  <select name="strategyType" required>
+                    <option value="">请选择</option>
+                    <option>离网维系</option>
+                    <option>降档防控</option>
+                    <option>合约运营</option>
+                    <option>价值提升</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="req">集团场景</label>
+                  <select name="groupScene" required>
+                    <option value="">请选择</option>
+                    <option>公众市场</option>
+                    <option>政企市场</option>
+                    <option>家庭市场</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="req">运营场景</label>
+                  <select name="operationScene" required>
+                    <option value="">请选择运营场景</option>
+                    <option>中高端客户运营</option>
+                    <option>离网维系</option>
+                    <option>流量运营</option>
+                    <option>家庭融合运营</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="req">活动类型</label>
+                  <select name="activityType" required>
+                    <option value="">请选择活动类型</option>
+                    <option>精准营销</option>
+                    <option>关怀营销</option>
+                    <option>促销营销</option>
+                  </select>
+                </div>
+                <div class="form-field">
+                  <label class="req">活动目的</label>
+                  <select name="activityGoal" required>
+                    <option value="">请选择营销活动目标</option>
+                    <option>离网挽留</option>
+                    <option>升档增收</option>
+                    <option>合约续约</option>
+                    <option>价值提升</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section class="strategy-form-section">
+              <h3><span class="step-num">3</span> 产品配置</h3>
+              <div class="product-config-bar">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-open-product-picker">
+                  <i class="fas fa-box"></i> 选择产品
+                </button>
+              </div>
+              <div id="strategy-product-selected" class="strategy-product-selected">
+                <p class="muted product-empty-hint">暂未选择产品，请点击上方按钮添加</p>
+              </div>
+              <input type="hidden" name="productMain" id="product-main-hidden" value=""/>
+            </section>
+
+            <section class="strategy-form-section">
+              <h3><span class="step-num">4</span> 渠道配置</h3>
+              <div class="channel-config-bar">
+                <button type="button" class="btn btn-primary btn-sm" id="btn-open-channel-picker">
+                  <i class="fas fa-broadcast-tower"></i> 选择渠道
+                </button>
+                <span class="muted channel-config-hint">630 版本开放：10085外呼营销、中国移动APP、营业厅网台、10086呼入弹屏</span>
+              </div>
+              <div id="strategy-channel-tabs" class="strategy-channel-tabs-wrap"></div>
+              <div id="strategy-channel-panels" class="strategy-channel-panels"></div>
+            </section>
+
+            <div class="strategy-form-actions">
+              <a href="strategy-category.html?tab=segment" class="btn btn-outline">取消</a>
+              <button type="button" class="btn btn-outline" id="btn-strategy-draft">保存草稿</button>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> 提交</button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<div id="strategy-toast" class="strategy-toast" role="status" aria-live="polite"></div>
+
+<!-- 选择客群 -->
+<div class="modal-overlay" id="modal-segment-pick">
+  <div class="modal-box modal-segment-pick-lg">
+    <div class="modal-head">
+      <strong>选择客群</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-segment-pick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="page-filter-form segment-pick-filter-form" id="segment-pick-filter">
+        <div class="filter-field">
+          <label for="segment-pick-kw">客群</label>
+          <input type="text" id="segment-pick-kw" class="wide" placeholder="客群名称 / 客群编码"/>
+        </div>
+        <div class="filter-actions">
+          <button type="button" class="btn btn-outline btn-sm" id="btn-segment-pick-reset"><i class="fas fa-redo"></i> 重置</button>
+          <button type="button" class="btn btn-primary btn-sm" id="btn-segment-pick-search"><i class="fas fa-search"></i> 查询</button>
+        </div>
+      </div>
+      <div class="table-scroll segment-pick-table-wrap">
+        <table class="data-table segment-pick-table">
+          <thead>
+            <tr>
+              <th style="width:40px"></th>
+              <th class="seg-col-code">客群编码</th>
+              <th class="seg-col-name">客群名称</th>
+              <th class="seg-col-source">来源</th>
+              <th class="seg-col-scale">客群规模</th>
+              <th class="seg-col-caliber">业务口径</th>
+              <th class="seg-col-date">生效日期</th>
+              <th class="seg-col-status">状态</th>
+            </tr>
+          </thead>
+          <tbody id="segment-pick-tbody"></tbody>
+        </table>
+        <div class="table-pagination compact-pagination" id="segment-pick-pagination"></div>
+      </div>
+    </div>
+    <div class="modal-foot segment-pick-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-segment-pick">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-segment-pick-confirm" disabled><i class="fas fa-check"></i> 确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- 选择产品 -->
+<div class="modal-overlay" id="modal-product-picker">
+  <div class="modal-box modal-product-picker">
+    <div class="modal-head">
+      <strong>选择产品</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-product-picker"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="product-picker-selected product-picker-selected--single" id="product-picker-selected">
+        <span class="k">已选主产品</span>
+        <div class="product-picker-chips" id="product-picker-chips"></div>
+      </div>
+      <div class="product-picker-toolbar">
+        <div class="product-picker-search">
+          <i class="fas fa-search"></i>
+          <input type="text" id="product-picker-kw" placeholder="搜索产品编号 / 名称"/>
+        </div>
+      </div>
+      <div class="table-scroll product-picker-table-wrap">
+        <table class="data-table product-picker-table">
+          <thead>
+            <tr>
+              <th style="width:40px"></th>
+              <th style="width:48px">序号</th>
+              <th>产品编号及名称</th>
+              <th>商品类型</th>
+              <th>产品业务分类</th>
+              <th>生效时间</th>
+            </tr>
+          </thead>
+          <tbody id="product-picker-tbody"></tbody>
+        </table>
+      </div>
+      <div class="product-picker-pagination" id="product-picker-pagination"></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-product-picker">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-product-picker-confirm">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- 选择渠道 -->
+<div class="modal-overlay" id="modal-channel-picker">
+  <div class="modal-box modal-channel-picker">
+    <div class="modal-head">
+      <strong>选择渠道</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-channel-picker"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="channel-touch-grid" id="channel-touch-grid"></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-channel-picker">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-channel-picker-confirm">确定</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/strategy-product-data.js"></script>
+<script src="../assets/js/strategy-channel-data.js"></script>
+<script src="../assets/js/customer-segment-data.js"></script>
+<script src="../assets/js/metric-dispatch-store.js"></script>
+<script src="../assets/js/customer-segment-store.js"></script>
+<script src="../assets/js/indicator-segment-data.js"></script>
+<script src="../assets/js/strategy-lifecycle.js"></script>
+<script src="../assets/js/strategy-nav.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/strategy-create.js"></script>
+<script src="../assets/js/strategy-toast.js"></script>
+</body>
+</html>

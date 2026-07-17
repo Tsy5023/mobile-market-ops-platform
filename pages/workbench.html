@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>工作台 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/alert-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/workbench.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='workbench.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span><i class="fas fa-bell"></i> 消息 <strong style="color:#fbbf24">3</strong></span>
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 运营工作台 / 工作台</div>
+        <div class="page-header">
+          <h1>工作台</h1>
+          <p>聚合我的工单、策略与预警，快速处理待办与审批</p>
+        </div>
+        <div class="wb-modules" id="wb-modules-root"></div>
+      </main>
+      <footer class="footer-bar">
+        <span><span class="dot"></span>系统运行正常</span>
+        <span>数据更新：2026-05-20 14:32:08</span>
+        <span>环境：演示原型 v1.0</span>
+      </footer>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/metric-dispatch-store.js"></script>
+<script src="../assets/js/strategy-lifecycle.js"></script>
+<script src="../assets/js/strategy-approval-data.js"></script>
+<script src="../assets/js/strategy-approval.js"></script>
+<script src="../assets/js/alert-rules-store.js"></script>
+<script src="../assets/js/workbench-page.js"></script>
+<script src="../assets/js/layout.js"></script>
+</body>
+</html>

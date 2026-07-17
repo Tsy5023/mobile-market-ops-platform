@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略审核详情 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/agent-strategy-audit-data.js"></script>
+  <script>const CURRENT_PAGE='agent-audit-detail.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions"><span>张明 · 省公司运营</span><div class="avatar"></div></div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / <a href="agent-audit-list.html">AI策略审核列表</a> / 审核详情</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <h1>策略审核详情</h1>
+          <a href="agent-audit-list.html" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> 返回列表</a>
+        </div>
+        <div class="diag-detail-header" id="audit-header"></div>
+        <div class="card" id="audit-result-card">
+          <div class="card-header"><span>策略审核结果</span></div>
+          <div class="card-body audit-result-body" id="audit-strategies-wrap"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/agent-audit-detail.js"></script>
+</body>
+</html>

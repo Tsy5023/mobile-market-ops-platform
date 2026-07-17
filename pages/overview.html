@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>运营概览 - 中国移动江西 · 业务指挥中心</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/overview-dashboard.css"/>
+  <link rel="stylesheet" href="../assets/css/traffic-home.css"/>
+  <link rel="stylesheet" href="../assets/css/overview-config.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='overview.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span><small style="font-size:11px;color:#64748b;margin-left:8px">江西公司</small></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司市场部</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area" id="ov-dashboard">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 运营概览 / 业务指挥中心</div>
+
+        <header class="ov-command-header">
+          <div>
+            <h1><i class="fas fa-tower-broadcast"></i> 中国移动江西省公司 · 市场部业务指挥中心</h1>
+          </div>
+          <div class="ov-global-toolbar">
+            <div class="ov-period-tabs" id="ov-period-tabs">
+              <button type="button" data-period="day">日</button>
+              <button type="button" data-period="week">周</button>
+              <button type="button" data-period="month" class="active">月</button>
+              <button type="button" data-period="quarter">季度</button>
+            </div>
+            <div class="ov-region-filters">
+              <select id="ov-city-select" title="地市"><option value="">全省</option></select>
+              <select id="ov-county-select" title="区县" disabled><option value="">区县</option></select>
+            </div>
+          </div>
+        </header>
+        <p class="ov-period-hint" id="ov-period-label">统计周期：月 · 江西省</p>
+
+        <div id="ov-config-modules-root" class="ov-config-modules-root" hidden aria-label="配置化指标模块"></div>
+
+        <!-- 核心经营 6 项 -->
+        <section class="ov-core-strip ov-core-strip-6" id="ov-core-kpis" aria-label="核心经营指标"></section>
+
+        <!-- 快捷指标带 -->
+        <section class="ov-mini-strip" id="ov-mini-kpis" aria-label="快捷指标"></section>
+
+        <!-- 中部：用户运营 | 收入与产品经营 -->
+        <div class="ov-mid-row ov-mid-row-wide">
+          <section class="ov-panel ov-panel-tall">
+            <div class="ov-panel-head"><i class="fas fa-users"></i> 用户运营 <span class="muted head-sub">拉新 · 留存 · 价值客户</span></div>
+            <div class="ov-panel-body ov-panel-body-flush" id="ov-panel-user"></div>
+          </section>
+          <section class="ov-panel ov-panel-tall">
+            <div class="ov-panel-head"><i class="fas fa-coins"></i> 收入与产品经营 <span class="muted head-sub">收入结构 · 融合升档 · 价值防控</span></div>
+            <div class="ov-panel-body ov-panel-body-flush" id="ov-panel-value"></div>
+          </section>
+        </div>
+
+        <!-- 地市赛马 -->
+        <section class="ov-panel ov-city-panel">
+          <div class="ov-panel-head"><i class="fas fa-ranking-star"></i> 地市经营赛马 <span class="muted head-sub">收入完成率 · 净增 · 离网 · 点击行查看地市</span></div>
+          <div class="ov-panel-body table-scroll" id="ov-city-board"></div>
+        </section>
+
+        <!-- 底部：渠道 | 营销 -->
+        <div class="ov-bottom-row">
+          <section class="ov-panel">
+            <div class="ov-panel-head"><i class="fas fa-store"></i> 渠道效能</div>
+            <div class="ov-panel-body ov-panel-body-flush" id="ov-panel-channel"></div>
+          </section>
+          <section class="ov-panel">
+            <div class="ov-panel-head"><i class="fas fa-bullhorn"></i> 营销活动实时监控</div>
+            <div class="ov-panel-body" id="ov-panel-campaign"></div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="ov-drill-modal">
+  <div class="modal-box modal-ov-drill">
+    <div class="modal-head">
+      <strong id="ov-drill-title">指标下钻</strong>
+      <button type="button" class="modal-close" data-close-modal="ov-drill-modal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="ov-drill-crumbs" id="ov-drill-crumbs"></div>
+      <div id="ov-drill-body"></div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/indicator-tree-config-data.js"></script>
+<script src="../assets/js/traffic-home-data.js"></script>
+<script src="../assets/js/overview-config-store.js"></script>
+<script src="../assets/js/overview-config-render.js"></script>
+<script src="../assets/js/overview-dashboard-data.js"></script>
+<script src="../assets/js/overview-dashboard.js"></script>
+</body>
+</html>

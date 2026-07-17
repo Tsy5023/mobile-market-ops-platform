@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>问答评价管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-chat-widget.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/agent-assistant-data.js"></script>
+  <script>const CURRENT_PAGE='agent-qa-feedback.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 问答评价管理</div>
+
+        <div class="agent-intro-banner">
+          <i class="fas fa-thumbs-up"></i>
+          <div>
+            <strong>知识查询助手 · 评价反馈</strong><br/>
+            查看用户对机器人回答的点赞、点踩评价，用于优化知识库内容与问答质量。
+          </div>
+        </div>
+
+        <div class="page-header">
+          <h1>问答评价管理</h1>
+        </div>
+
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="fb-filter-kw">用户/问题</label>
+            <input type="text" id="fb-filter-kw" class="wide" placeholder="用户ID / 姓名 / 问题关键词"/>
+          </div>
+          <div class="filter-field">
+            <label for="fb-filter-rating">评价结果</label>
+            <select id="fb-filter-rating">
+              <option value="">全部</option>
+              <option value="like">点赞</option>
+              <option value="dislike">点踩</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="fb-filter-start">评价开始</label>
+            <input type="date" id="fb-filter-start" value="2026-05-01"/>
+          </div>
+          <div class="filter-field">
+            <label for="fb-filter-end">评价结束</label>
+            <input type="date" id="fb-filter-end" value="2026-05-31"/>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" id="btn-fb-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>评价列表</span>
+            <span class="muted" id="fb-count" style="font-size:12px;font-weight:normal"></span>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table">
+              <thead>
+                <tr>
+                  <th>用户ID</th>
+                  <th>用户姓名</th>
+                  <th>用户问题</th>
+                  <th>回答答案</th>
+                  <th>评价结果</th>
+                  <th>评价时间</th>
+                  <th style="width:200px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="fb-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="fb-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-fb-detail">
+  <div class="modal-box modal-agent-lg">
+    <div class="modal-header">
+      <strong>评价详情</strong>
+      <button class="modal-close" data-close-modal="modal-fb-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="fb-detail-body"></div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-fb-detail">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-chat-widget.js"></script>
+<script src="../assets/js/agent-qa-feedback.js"></script>
+</body>
+</html>

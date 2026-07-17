@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>知识问答管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-chat-widget.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/agent-assistant-data.js"></script>
+  <script>const CURRENT_PAGE='agent-qa-knowledge.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>李敏 · 系统配置员</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 知识问答管理</div>
+
+        <div class="agent-intro-banner">
+          <i class="fas fa-book-open"></i>
+          <div>
+            <strong>知识查询助手 · 问答配置</strong><br/>
+            管理员维护用户常见问题与标准答案，机器人优先命中本库内容回答；支持增删改查及批量导入导出。
+          </div>
+        </div>
+
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+          <div>
+            <h1>知识问答管理</h1>
+          </div>
+          <div class="agent-toolbar" style="margin:0">
+            <button type="button" class="btn btn-outline btn-sm" id="btn-qa-export"><i class="fas fa-file-export"></i> 批量导出</button>
+            <button type="button" class="btn btn-outline btn-sm" id="btn-qa-import"><i class="fas fa-file-import"></i> 批量导入</button>
+            <button type="button" class="btn btn-primary" id="btn-qa-create"><i class="fas fa-plus"></i> 新增问答</button>
+          </div>
+        </div>
+
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="qa-filter-kw">问答ID / 问题 / 答案</label>
+            <input type="text" id="qa-filter-kw" class="wide" placeholder="关键词搜索"/>
+          </div>
+          <div class="filter-field">
+            <label for="qa-filter-cat">分类</label>
+            <select id="qa-filter-cat"><option value="">全部分类</option></select>
+          </div>
+          <div class="filter-field">
+            <label for="qa-filter-status">状态</label>
+            <select id="qa-filter-status">
+              <option value="">全部状态</option>
+              <option value="enabled">启用</option>
+              <option value="disabled">停用</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" id="btn-qa-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>问答列表</span>
+            <span class="muted" id="qa-count" style="font-size:12px;font-weight:normal"></span>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table">
+              <thead>
+                <tr>
+                  <th style="width:108px">问答ID</th>
+                  <th style="min-width:200px">问题</th>
+                  <th style="min-width:260px">答案</th>
+                  <th style="width:96px">分类</th>
+                  <th style="width:72px">状态</th>
+                  <th style="width:80px">更新人</th>
+                  <th style="width:148px">更新时间</th>
+                  <th style="width:200px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="qa-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="qa-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- 批量导入 -->
+<div class="modal-overlay" id="modal-qa-import">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <div>
+        <strong>批量导入</strong>
+        <p class="qa-modal-sub">上传 CSV / TXT 文件批量新增或更新问答</p>
+      </div>
+      <button type="button" class="modal-close" data-close-modal="modal-qa-import" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="qa-import-dropzone" id="qa-import-dropzone">
+        <input type="file" id="qa-import-file" accept=".csv,.txt" hidden/>
+        <i class="fas fa-cloud-upload-alt qa-import-icon"></i>
+        <p class="qa-import-main">拖拽文件到此处，或<a href="#" class="link-action" id="qa-import-pick">点击选择文件</a></p>
+        <p class="qa-import-hint muted">支持 .csv、.txt 格式，编码 UTF-8</p>
+        <p class="qa-import-file-name" id="qa-import-file-name"></p>
+      </div>
+      <p class="qa-import-template">
+        <a href="#" class="link-action" id="qa-import-template"><i class="fas fa-download"></i> 下载导入模板</a>
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-qa-import">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-qa-import-confirm" disabled><i class="fas fa-file-import"></i> 确认导入</button>
+    </div>
+  </div>
+</div>
+
+<!-- 停用确认 -->
+<div class="modal-overlay" id="modal-qa-disable">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <strong><i class="fas fa-pause-circle text-warn"></i> 停用确认</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-qa-disable" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="qa-disable-hint">停用后，知识查询助手将不再命中该条问答，用户提问时无法获得此标准答案。</p>
+      <div class="qa-disable-preview" id="qa-disable-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-qa-disable">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-qa-disable-confirm"><i class="fas fa-pause"></i> 确认停用</button>
+    </div>
+  </div>
+</div>
+
+<!-- 查看详情 -->
+<div class="modal-overlay" id="modal-qa-detail">
+  <div class="modal-box modal-qa">
+    <div class="modal-header">
+      <div>
+        <strong id="qa-detail-title">问答详情</strong>
+        <p class="qa-modal-sub" id="qa-detail-sub"></p>
+      </div>
+      <button type="button" class="modal-close" data-close-modal="modal-qa-detail" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="qa-detail-body"></div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-qa-detail">关闭</button>
+      <button type="button" class="btn btn-primary" id="btn-detail-to-edit"><i class="fas fa-pen"></i> 编辑</button>
+    </div>
+  </div>
+</div>
+
+<!-- 新增 / 编辑 -->
+<div class="modal-overlay" id="modal-qa-form">
+  <div class="modal-box modal-qa">
+    <div class="modal-header">
+      <div>
+        <strong id="qa-form-title">新增问答</strong>
+        <p class="qa-modal-sub" id="qa-form-sub">填写用户常见问题与标准答案，保存后知识助手即可命中</p>
+      </div>
+      <button type="button" class="modal-close" data-close-modal="modal-qa-form" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="qa-form" class="modal-body agent-form-vertical qa-form-modal">
+      <input type="hidden" name="id" id="qa-form-id"/>
+      <div class="form-field">
+        <label class="req" for="qa-field-question">问题</label>
+        <input type="text" id="qa-field-question" name="question" required placeholder="请输入用户常见问题，如：流量收入指标的业务口径是什么？"/>
+      </div>
+      <div class="form-field">
+        <label class="req" for="qa-field-answer">答案</label>
+        <textarea id="qa-field-answer" name="answer" rows="6" required placeholder="请输入标准答案，将直接用于机器人回复"></textarea>
+      </div>
+      <div class="form-field">
+        <label class="req" for="qa-form-category">分类</label>
+        <select name="category" id="qa-form-category" required></select>
+      </div>
+      <div class="form-field">
+        <label class="req" for="qa-field-status">状态</label>
+        <select name="status" id="qa-field-status" required>
+          <option value="enabled">启用</option>
+          <option value="disabled">停用</option>
+        </select>
+      </div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-qa-form">取消</button>
+      <button type="submit" form="qa-form" class="btn btn-primary"><i class="fas fa-check"></i> 保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- 删除确认 -->
+<div class="modal-overlay" id="modal-qa-delete">
+  <div class="modal-box modal-qa-sm">
+    <div class="modal-header">
+      <strong><i class="fas fa-triangle-exclamation text-danger"></i> 删除确认</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-qa-delete" aria-label="关闭"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="qa-delete-hint">确定删除以下问答？删除后知识助手将不再命中该条目。</p>
+      <div class="qa-delete-preview" id="qa-delete-preview"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-qa-delete">取消</button>
+      <button type="button" class="btn btn-danger" id="btn-qa-delete-confirm"><i class="fas fa-trash"></i> 确认删除</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-chat-widget.js"></script>
+<script src="../assets/js/agent-qa-knowledge.js"></script>
+</body>
+</html>

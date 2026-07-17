@@ -1,0 +1,572 @@
+/* 智能体管理 · 策略诊断 */
+.agent-sd-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.65;
+}
+.agent-sd-intro i { color: #2563eb; font-size: 18px; margin-top: 2px; }
+
+.agent-activity-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.agent-activity-tabs button {
+  padding: 8px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  color: #64748b;
+  cursor: pointer;
+}
+.agent-activity-tabs button.active {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.agent-rule-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.agent-rule-tab {
+  padding: 10px 18px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  font-size: 14px;
+  color: #64748b;
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.agent-rule-tab:hover { color: #1d4ed8; }
+.agent-rule-tab.active {
+  color: #1d4ed8;
+  font-weight: 600;
+  border-bottom-color: #2563eb;
+}
+.agent-rule-panel { margin-top: 0; }
+
+.agent-activity-filter {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px 16px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+@media (max-width: 1100px) {
+  .agent-activity-filter { grid-template-columns: repeat(2, 1fr); }
+}
+.agent-activity-filter .filter-field label {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+.agent-activity-filter .filter-field input,
+.agent-activity-filter .filter-field select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.agent-activity-filter .filter-field-date .date-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.agent-activity-filter .filter-field-date input { flex: 1; min-width: 0; }
+.agent-activity-filter-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+}
+
+.agent-sd-table th,
+.agent-sd-table td {
+  font-size: 13px;
+  vertical-align: middle;
+}
+.agent-sd-table .cell-ellipsis {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 诊断详情 */
+.diag-detail-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.diag-detail-header .kv label {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+.diag-detail-header .kv strong { color: #0f172a; }
+
+.diag-result-table td.diag-analysis-cell {
+  white-space: normal;
+  max-width: 360px;
+  line-height: 1.55;
+  color: #475569;
+}
+.diag-conclusion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.diag-conclusion.ok { color: #16a34a; }
+.diag-conclusion.warn { color: #d97706; }
+.diag-conclusion .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.diag-conclusion.warn .icon-warn {
+  color: #d97706;
+  font-size: 14px;
+}
+
+.diag-extra-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+@media (max-width: 900px) {
+  .diag-extra-cards { grid-template-columns: 1fr; }
+}
+.diag-extra-card {
+  padding: 12px 14px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.diag-extra-card h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: #1e40af;
+}
+.diag-extra-card p { margin: 0; color: #475569; line-height: 1.55; }
+.diag-extra-card-single { grid-column: 1 / -1; }
+
+/* 客群画像分析结果 */
+.diag-portrait-table td {
+  vertical-align: top;
+  font-size: 13px;
+}
+.diag-portrait-table .portrait-dim-cell {
+  min-width: 120px;
+  max-width: 180px;
+  color: #475569;
+  line-height: 1.55;
+}
+.diag-portrait-table .portrait-result-cell {
+  min-width: 320px;
+}
+.portrait-tag-block {
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.portrait-tag-block:last-child { margin-bottom: 0; }
+.portrait-tag-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 8px;
+}
+.portrait-value-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.portrait-value-table th,
+.portrait-value-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+.portrait-value-table th {
+  background: #fff;
+  color: #64748b;
+  font-weight: 500;
+}
+.portrait-value-table tr:last-child td { border-bottom: none; }
+
+/* 全屏规则表单 */
+.modal-sd-fullscreen {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.modal-sd-fullscreen .modal-header {
+  flex-shrink: 0;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.modal-sd-fullscreen .modal-body {
+  flex: 1;
+  overflow-y: auto;
+  max-height: none !important;
+  padding: 20px 24px 32px;
+}
+.modal-sd-fullscreen .modal-footer {
+  flex-shrink: 0;
+  padding: 12px 24px;
+  border-top: 1px solid #e2e8f0;
+}
+.sd-form-panel {
+  max-width: 720px;
+}
+.sd-dim-picker-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-height: 38px;
+  padding: 6px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+.sd-dim-picker-trigger:hover { border-color: #93c5fd; }
+.sd-dim-placeholder { color: #94a3b8; font-size: 13px; }
+.sd-dim-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #1d4ed8;
+}
+.sd-dim-chip button {
+  border: none;
+  background: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  font-size: 14px;
+}
+.sd-dim-chip button:hover { color: #dc2626; }
+
+/* 选择分析维度弹窗 */
+.modal-dim-picker {
+  width: min(860px, 96vw);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.modal-dim-picker .modal-body {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(90vh - 120px);
+}
+.dim-selected-bar {
+  margin-bottom: 12px;
+}
+.dim-selected-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #334155;
+}
+.dim-selected-box {
+  min-height: 72px;
+  max-height: 120px;
+  overflow-y: auto;
+  padding: 8px 10px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: flex-start;
+}
+.dim-selected-box.empty::before {
+  content: '请从下方列表勾选分析维度';
+  color: #94a3b8;
+  font-size: 13px;
+}
+.dim-filter-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+.dim-filter-row .filter-field { flex: 1; min-width: 160px; }
+.dim-filter-row .filter-field label {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+.dim-filter-row input,
+.dim-filter-row select {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.dim-table-wrap {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+.dim-table-wrap table { margin: 0; }
+.dim-table-wrap thead th {
+  position: sticky;
+  top: 0;
+  background: #f8fafc;
+  z-index: 1;
+}
+
+#pr-modal-dim-picker { z-index: 210; }
+
+/* 预演规则配置 */
+.sd-rehearsal-config .sd-config-block {
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+}
+.sd-config-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 20px;
+}
+.sd-config-label {
+  font-size: 13px;
+  color: #334155;
+  margin-bottom: 10px;
+  flex-shrink: 0;
+  line-height: 22px;
+}
+.sd-config-row .sd-config-label {
+  margin-bottom: 0;
+}
+.sd-config-label .req-mark { color: #dc2626; margin-right: 2px; }
+.sd-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  flex: 1;
+  min-width: 0;
+}
+.sd-checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  margin-bottom: 0;
+}
+.sd-checkbox-item input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: #2563eb;
+  cursor: pointer;
+}
+/* 覆盖竖排表单对 label 的 block 样式，保证勾选框与文字同一行 */
+.agent-form-vertical .form-field .sd-checkbox-group .sd-checkbox-item {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 0;
+  font-size: 13px;
+  color: #334155;
+}
+.agent-form-vertical .form-field .sd-checkbox-item input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+/* 预演结果 */
+.diag-rehearsal-table td { vertical-align: top; font-size: 13px; }
+.rehearsal-summary-cell { min-width: 140px; }
+.rehearsal-summary { display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+.rehearsal-summary .muted { display: block; font-size: 12px; margin-bottom: 2px; }
+.rehearsal-summary strong { color: #0f172a; }
+.rehearsal-filter-table .text-warn { color: #d97706; font-weight: 600; }
+
+/* 策略审核 */
+.audit-conclusion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.audit-conclusion.pass { color: #16a34a; }
+.audit-conclusion.warn { color: #d97706; }
+.audit-conclusion.fail { color: #d97706; }
+.audit-conclusion .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.audit-result-body {
+  padding: 16px;
+}
+.audit-strategy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.audit-strategy-block {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.audit-strategy-head {
+  display: grid;
+  grid-template-columns: 52px minmax(120px, 1fr) minmax(160px, 2fr) minmax(88px, 1fr) minmax(120px, 1.2fr);
+  gap: 12px 16px;
+  align-items: start;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+.audit-strategy-head-item {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.audit-strategy-head-label {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.3;
+}
+.audit-strategy-head-item strong {
+  font-size: 13px;
+  color: #0f172a;
+  font-weight: 600;
+  word-break: break-word;
+}
+.audit-strategy-head-conclusion .audit-conclusion {
+  margin-top: 2px;
+}
+.audit-strategy-rules {
+  padding: 0;
+}
+.audit-rule-table-flat {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+.audit-rule-table-flat th {
+  background: #fff;
+  font-size: 12px;
+}
+.audit-rule-table-flat td {
+  font-size: 13px;
+  vertical-align: top;
+}
+.audit-rule-analysis {
+  color: #475569;
+  line-height: 1.55;
+}
+.audit-rule-empty {
+  margin: 0;
+  padding: 20px 16px;
+  text-align: center;
+  font-size: 13px;
+}
+.audit-running-placeholder {
+  text-align: center;
+  padding: 40px 24px;
+}
+.audit-running-placeholder i {
+  font-size: 28px;
+  color: #2563eb;
+  margin-bottom: 12px;
+  display: block;
+}
+.audit-running-placeholder p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+@media (max-width: 960px) {
+  .audit-strategy-head {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+.diag-audit-table td { vertical-align: top; font-size: 13px; }
+.audit-rule-table { margin-top: 4px; }
+.audit-preview-list {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.6;
+}
+

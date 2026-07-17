@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>预警规则管理（730） - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/alert-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='alert-rules.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 监控预警管理 / 预警规则管理（730）</div>
+
+        <div id="alert-rules-list-view" class="module-view active">
+          <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+            <div>
+              <h1>预警规则管理（730）</h1>
+              <p>配置预警指标、计算规则、生效日期与提醒方式</p>
+            </div>
+            <button type="button" class="btn btn-primary" id="btn-alert-rule-create"><i class="fas fa-plus"></i> 新增规则</button>
+          </div>
+          <div class="page-filter-form">
+            <div class="filter-field">
+              <label for="alert-rules-filter-kw">规则名称</label>
+              <input type="text" id="alert-rules-filter-kw" class="wide" placeholder="请输入预警规则名称"/>
+            </div>
+            <div class="filter-field">
+              <label>生效日期</label>
+              <div class="alert-date-range alert-date-range-filter">
+                <input type="date" id="alert-rules-filter-date-start" aria-label="生效开始日期"/>
+                <span class="alert-date-range-sep">至</span>
+                <input type="date" id="alert-rules-filter-date-end" aria-label="生效结束日期"/>
+              </div>
+            </div>
+            <div class="filter-field">
+              <label for="alert-rules-filter-status">状态</label>
+              <select id="alert-rules-filter-status">
+                <option value="">全部状态</option>
+                <option value="enabled">启用</option>
+                <option value="disabled">停用</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button type="button" class="btn btn-primary" id="btn-alert-rules-search"><i class="fas fa-search"></i> 查询</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span>预警规则列表</span>
+              <span class="muted" id="alert-rules-count" style="font-size:12px;font-weight:normal"></span>
+            </div>
+            <div class="card-body table-scroll" style="padding:0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>预警规则名称</th>
+                    <th>预警规则描述</th>
+                    <th>生效日期</th>
+                    <th>规则创建时间</th>
+                    <th>规则更新时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="alert-rules-tbody"></tbody>
+              </table>
+              <div class="table-pagination" id="alert-rules-pagination"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="alert-rules-form-view" class="module-view">
+          <div class="page-header">
+            <h1 id="alert-rules-form-title">新增规则</h1>
+          </div>
+          <form id="alert-rule-form" class="alert-form-page">
+            <section class="alert-form-section alert-form-section-basic">
+              <h3 class="alert-form-section-title">基本信息</h3>
+              <div class="alert-form-rows">
+                <div class="alert-form-row">
+                  <label class="req" for="arf-rule-name">预警名称</label>
+                  <div class="alert-form-control">
+                    <input type="text" id="arf-rule-name" name="name" required placeholder="请输入预警名称"/>
+                  </div>
+                </div>
+                <div class="alert-form-row">
+                  <label class="req" for="arf-rule-desc">预警规则描述</label>
+                  <div class="alert-form-control">
+                    <input type="text" id="arf-rule-desc" name="description" required placeholder="请输入预警规则描述"/>
+                  </div>
+                </div>
+                <div class="alert-form-row">
+                  <label class="req">预警规则生效日期</label>
+                  <div class="alert-form-control">
+                    <div class="alert-date-range">
+                      <input type="date" name="effectiveDateStart" value="2026-05-28" required aria-label="开始日期"/>
+                      <span class="alert-date-range-sep">至</span>
+                      <input type="date" name="effectiveDateEnd" value="2099-12-31" required aria-label="结束日期"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="alert-form-section">
+              <h3 class="alert-form-section-title">预警规则</h3>
+              <p class="alert-section-lead">配置预警指标后，当指标的数据在配置条件范围内，则会触发预警。</p>
+              <div class="alert-metric-scope-toolbar">
+                <button type="button" class="btn btn-primary" id="btn-alert-add-metric"><i class="fas fa-plus"></i> 添加预警指标</button>
+                <input type="hidden" id="arf-global-metric-id" value=""/>
+              </div>
+              <div class="alert-rule-conditions-head">
+                <span>预警指标</span>
+                <span>指标层级</span>
+                <span>监控范围</span>
+                <span>指标单位</span>
+                <span>计算规则</span>
+                <span>操作</span>
+              </div>
+              <div id="alert-rule-conditions"></div>
+              <p class="muted alert-conditions-empty" id="arf-conditions-empty">暂未添加规则行，请点击上方「添加预警指标」</p>
+            </section>
+
+            <section class="alert-form-section">
+              <h3 class="alert-form-section-title">监控频次</h3>
+              <div class="alert-form-rows">
+                <div class="alert-form-row">
+                  <label>监控说明</label>
+                  <div class="alert-form-control">
+                    <p class="alert-monitor-schedule-hint">每日早上8点获取最新指标数据，如果指标数据发生变化，则根据预警规则进行监控和提醒。月指标每月只监控和通知一次。</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="alert-form-section">
+              <h3 class="alert-form-section-title">预警提醒</h3>
+              <div class="alert-form-rows">
+                <div class="alert-form-row">
+                  <label class="req">提醒方式</label>
+                  <div class="alert-form-control">
+                    <div class="alert-notify-channel-list">
+                      <div class="alert-notify-channel-row">
+                        <label class="alert-checkbox-item">
+                          <input type="checkbox" name="notifySms" value="1"/> 短信
+                        </label>
+                        <button type="button" class="btn-link alert-notify-template-btn" data-channel="sms"><i class="fas fa-file-lines"></i> 通知模板</button>
+                      </div>
+                      <div class="alert-notify-channel-row">
+                        <label class="alert-checkbox-item">
+                          <input type="checkbox" name="notifyEmail" value="1"/> 邮件
+                        </label>
+                        <button type="button" class="btn-link alert-notify-template-btn" data-channel="email"><i class="fas fa-file-lines"></i> 通知模板</button>
+                      </div>
+                      <div class="alert-notify-channel-row">
+                        <label class="alert-checkbox-item">
+                          <input type="checkbox" name="notifySiteMsg" value="1"/> 站内消息
+                        </label>
+                        <button type="button" class="btn-link alert-notify-template-btn" data-channel="site"><i class="fas fa-file-lines"></i> 通知模板</button>
+                      </div>
+                    </div>
+                    <p class="alert-field-hint">各渠道可单独配置通知模板（标题 + 内容），模板支持占位符，发送时自动填充异常指标信息。</p>
+                  </div>
+                </div>
+                <div class="alert-form-row alert-form-row-top">
+                  <label class="req">接收人</label>
+                  <div class="alert-form-control">
+                    <div class="alert-recipient-toolbar">
+                      <button type="button" class="btn btn-outline btn-sm" id="btn-alert-add-recipient"><i class="fas fa-user-plus"></i> 添加接收人</button>
+                      <span class="alert-field-hint" style="margin:0">从组织架构选择具体人员，可多选</span>
+                    </div>
+                    <div class="alert-recipient-chips" id="arf-recipient-chips">
+                      <p class="muted alert-recipient-empty">暂未添加接收人</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="alert-form-foot">
+              <button type="button" class="btn btn-outline" id="btn-alert-rule-back"><i class="fas fa-arrow-left"></i> 返回</button>
+              <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> 确认</button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- 选择指标（两步：指标 → 层级与范围） -->
+<div class="modal-overlay" id="modal-alert-metric-pick">
+  <div class="modal-box modal-metric-pick modal-alert-metric-wizard">
+    <div class="modal-head">
+      <div>
+        <strong id="arf-mp-modal-title">选择预警指标</strong>
+        <div class="alert-mp-stepper" id="arf-mp-steps">
+          <div class="alert-mp-stepper-item is-active" data-step="1">
+            <span class="alert-mp-stepper-num">1</span>
+            <span class="alert-mp-stepper-text">
+              <strong>选择指标</strong>
+              <small>从指标库挑选</small>
+            </span>
+          </div>
+          <div class="alert-mp-stepper-track" aria-hidden="true"><span class="alert-mp-stepper-track-fill"></span></div>
+          <div class="alert-mp-stepper-item" data-step="2">
+            <span class="alert-mp-stepper-num">2</span>
+            <span class="alert-mp-stepper-text">
+              <strong>指标层级与范围</strong>
+              <small>指定监控范围</small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="modal-close" data-close-modal="modal-alert-metric-pick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="arf-mp-step1">
+        <div class="metric-pick-filter">
+          <div class="filter-field">
+            <label for="arf-mp-keyword">指标名称</label>
+            <input type="text" id="arf-mp-keyword" placeholder="请输入指标名称或编码"/>
+          </div>
+          <div class="filter-field">
+            <label for="arf-mp-algorithm-scene">算法使用场景</label>
+            <select id="arf-mp-algorithm-scene">
+              <option value="">全部</option>
+              <option value="traffic_rca">流量运营根因分析</option>
+              <option value="loss_control_rca">控损运营根因分析</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary" id="arf-mp-search"><i class="fas fa-search"></i> 搜索</button>
+        </div>
+        <div class="table-scroll">
+          <table class="data-table metric-pick-table">
+            <thead>
+              <tr>
+                <th style="width:42px"></th>
+                <th>指标编码</th>
+                <th>指标名称</th>
+                <th>指标单位</th>
+                <th>算法使用场景</th>
+                <th>统计周期</th>
+              </tr>
+            </thead>
+            <tbody id="arf-metric-pick-tbody"></tbody>
+          </table>
+        </div>
+        <div class="table-pagination compact-pagination" id="arf-metric-pick-pagination"></div>
+      </div>
+
+      <div id="arf-mp-step2" hidden>
+        <div class="alert-mp-selected-metrics-block">
+          <label class="alert-mp-field-label">已选指标</label>
+          <div class="alert-mp-selected-tags" id="arf-mp-selected-metrics-list"></div>
+        </div>
+
+        <div class="alert-mp-level-block">
+          <label class="alert-mp-field-label">指标层级与范围</label>
+          <p class="alert-scope-modal-lead" id="arf-mp-scope-hint">请勾选需要监控的范围（可多选）</p>
+          <div class="alert-region-check-grid" id="arf-mp-scope-list"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-alert-metric-pick">取消</button>
+      <button type="button" class="btn btn-primary" id="arf-mp-next"><i class="fas fa-arrow-right"></i> 下一步</button>
+      <button type="button" class="btn btn-outline" id="arf-mp-prev" hidden>上一步</button>
+      <button type="button" class="btn btn-primary" id="arf-mp-confirm" hidden>确认</button>
+    </div>
+  </div>
+</div>
+
+<!-- 通知模板编辑 -->
+<div class="modal-overlay" id="modal-alert-notify-template">
+  <div class="modal-box modal-alert-notify-template">
+    <div class="modal-head">
+      <strong id="arf-notify-template-title">通知模板</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-alert-notify-template"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <p class="alert-notify-template-lead">配置该渠道发送预警通知时的标题与正文。点击下方占位符可插入到当前输入框，发送时将自动替换为实际预警数据。</p>
+      <div class="alert-notify-placeholder-panel">
+        <div class="alert-notify-placeholder-label">可用占位符</div>
+        <div class="alert-notify-placeholder-list" id="arf-notify-placeholder-list"></div>
+      </div>
+      <div class="form-field" style="margin-top:14px">
+        <label for="arf-notify-template-subject">模板标题</label>
+        <input type="text" id="arf-notify-template-subject" class="alert-notify-template-subject" placeholder="请输入通知模板标题…" autocomplete="off"/>
+      </div>
+      <div class="form-field" style="margin-top:12px">
+        <label for="arf-notify-template-content">模板内容</label>
+        <textarea id="arf-notify-template-content" class="alert-notify-template-textarea" rows="10" placeholder="请输入通知模板内容…"></textarea>
+      </div>
+      <div class="alert-notify-template-preview">
+        <div class="alert-notify-placeholder-label">指标预警填充示例</div>
+        <div class="alert-notify-template-preview-card">
+          <div class="alert-notify-template-preview-subject" id="arf-notify-template-preview-subject"></div>
+          <pre id="arf-notify-template-preview" class="alert-notify-template-preview-body"></pre>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" id="arf-notify-template-reset">恢复默认</button>
+      <button type="button" class="btn btn-outline" data-close-modal="modal-alert-notify-template">取消</button>
+      <button type="button" class="btn btn-primary" id="arf-notify-template-save">保存模板</button>
+    </div>
+  </div>
+</div>
+
+<!-- 组织架构选人 -->
+<div class="modal-overlay" id="modal-alert-recipient-pick">
+  <div class="modal-box modal-dispatch-assignee-pick modal-alert-recipient-pick">
+    <div class="modal-head">
+      <strong>从组织架构选择接收人</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-alert-recipient-pick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="alert-recipient-picker-layout">
+        <aside class="alert-recipient-unit-panel">
+          <div class="alert-recipient-panel-title">公司</div>
+          <div class="alert-recipient-unit-list" id="arf-recipient-unit-list"></div>
+        </aside>
+        <section class="alert-recipient-staff-panel">
+          <div class="alert-recipient-panel-title">
+            <span>员工</span>
+            <span class="muted" id="arf-recipient-unit-label"></span>
+          </div>
+          <div class="dispatch-assignee-search">
+            <i class="fas fa-search"></i>
+            <input type="search" id="arf-recipient-search" placeholder="搜索姓名、岗位" autocomplete="off"/>
+          </div>
+          <div class="alert-recipient-staff-list" id="arf-recipient-staff-list"></div>
+        </section>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="muted alert-recipient-pick-count" id="arf-recipient-pick-count"></span>
+      <button type="button" class="btn btn-outline" data-close-modal="modal-alert-recipient-pick">完成</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/indicator-tree-config-data.js"></script>
+<script src="../assets/js/jiangxi-drill.js"></script>
+<script src="../assets/js/indicator-caretaker-data.js"></script>
+<script src="../assets/js/alert-rules-store.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/alert-rules-page.js"></script>
+</body>
+</html>

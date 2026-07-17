@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略审核规则管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/agent-strategy-diagnosis-data.js"></script>
+  <script src="../assets/js/agent-strategy-audit-data.js"></script>
+  <script>const CURRENT_PAGE='agent-audit-rule.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions"><span>李敏 · 系统配置员</span><div class="avatar"></div></div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 策略审核规则管理</div>
+        <div class="agent-sd-intro">
+          <i class="fas fa-clipboard-check"></i>
+          <div>配置策略审核规则，选择审核字段并设置审核要点，智能体将依据启用规则辅助业务人员批量审核策略。</div>
+        </div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <h1>策略审核规则管理</h1>
+          <button type="button" class="btn btn-primary" id="btn-create"><i class="fas fa-plus"></i> 新增规则</button>
+        </div>
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="filter-kw">规则名称</label>
+            <input type="text" id="filter-kw" class="wide" placeholder="关键词"/>
+          </div>
+          <div class="filter-field">
+            <label for="filter-cat">分类</label>
+            <select id="filter-cat"><option value="">全部分类</option></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-field">审核字段</label>
+            <select id="filter-field"><option value="">全部字段</option></select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-status">状态</label>
+            <select id="filter-status">
+              <option value="">全部状态</option>
+              <option value="enabled">启用</option>
+              <option value="disabled">停用</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" id="btn-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span>审核规则列表</span><span class="muted" id="list-count" style="font-size:12px;font-weight:normal"></span></div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table">
+              <thead>
+                <tr>
+                  <th style="width:100px">规则ID</th>
+                  <th>规则名称</th>
+                  <th style="width:100px">分类</th>
+                  <th style="width:100px">审核字段</th>
+                  <th>审核要点</th>
+                  <th style="width:72px">状态</th>
+                  <th style="width:148px">更新时间</th>
+                  <th style="width:180px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="list-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="list-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-form">
+  <div class="modal-box modal-qa">
+    <div class="modal-header">
+      <div><strong id="form-title">新增规则</strong></div>
+      <button type="button" class="modal-close" data-close-modal="modal-form"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="rule-form" class="modal-body agent-form-vertical">
+      <input type="hidden" id="form-id"/>
+      <div class="form-field"><label class="req" for="f-name">规则名称</label><input type="text" id="f-name" required/></div>
+      <div class="form-field"><label class="req" for="f-cat">规则分类</label><select id="f-cat" required></select></div>
+      <div class="form-field"><label class="req" for="f-field">审核字段</label><select id="f-field" required></select></div>
+      <div class="form-field"><label class="req" for="f-detail">审核要点</label><textarea id="f-detail" rows="4" required placeholder="描述该规则如何审核策略字段"></textarea></div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-form">取消</button>
+      <button type="submit" form="rule-form" class="btn btn-primary">保存</button>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-audit-rule.js"></script>
+</body>
+</html>

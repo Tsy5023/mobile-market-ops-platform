@@ -1,0 +1,146 @@
+/* 运营工作台 */
+.wb-modules {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.wb-module.card {
+  overflow: hidden;
+}
+
+.wb-module-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e2e8f0;
+  background: linear-gradient(180deg, #fafbfc 0%, #fff 100%);
+}
+
+.wb-module-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wb-module-title i {
+  color: #2563eb;
+  font-size: 15px;
+}
+
+.wb-module-more {
+  font-size: 13px;
+  color: #2563eb;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wb-module-more:hover {
+  text-decoration: underline;
+}
+
+.wb-module-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 18px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.wb-module-tab {
+  padding: 8px 14px;
+  border: none;
+  background: transparent;
+  border-radius: 8px 8px 0 0;
+  font-size: 13px;
+  color: #64748b;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.wb-module-tab:hover {
+  color: #334155;
+  background: #f8fafc;
+}
+
+.wb-module-tab.active {
+  color: #1d4ed8;
+  font-weight: 600;
+  border-bottom-color: #2563eb;
+  background: #fff;
+}
+
+.wb-tab-count {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wb-module-tab.active .wb-tab-count {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.wb-module-body {
+  padding: 0;
+}
+
+.wb-module-body .data-table {
+  margin: 0;
+}
+
+.wb-module-body .data-table th,
+.wb-module-body .data-table td {
+  padding: 11px 16px;
+  font-size: 13px;
+}
+
+.wb-module-body .data-table tbody tr {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.wb-module-body .data-table tbody tr:hover {
+  background: #f8fafc;
+}
+
+.wb-empty {
+  text-align: center;
+  padding: 28px 16px;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.wb-title-cell strong {
+  display: block;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.wb-title-cell small {
+  display: block;
+  margin-top: 2px;
+  color: #94a3b8;
+  font-size: 11px;
+}

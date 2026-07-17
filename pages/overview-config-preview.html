@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>首页配置预览 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/traffic-home.css"/>
+  <link rel="stylesheet" href="../assets/css/overview-config.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='overview-config-preview.html';</script>
+</head>
+<body class="page-ovcfg-preview">
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb">
+          <a href="../index.html">首页</a> / 基础功能 / 配置管理 /
+          <a href="workbench-config.html">运营概览配置（730）</a> / 预览
+        </div>
+        <div class="page-header ovcfg-preview-header">
+          <div>
+            <h1 id="ovcfg-preview-title">首页预览</h1>
+            <p class="ovcfg-preview-sub" id="ovcfg-preview-sub"></p>
+          </div>
+          <a href="workbench-config.html" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> 返回配置</a>
+        </div>
+
+        <div class="ovcfg-preview-banner">
+          <i class="fas fa-eye"></i>
+          <span>以下为按配置渲染的首页指标模块预览，实际首页将读取已保存的配置数据展示。</span>
+        </div>
+
+        <div id="ovcfg-preview-root" class="tf-modules-root ovcfg-preview-root"></div>
+
+        <div id="ovcfg-preview-empty" class="card" hidden>
+          <div class="card-body" style="padding:40px;text-align:center">
+            <p class="muted">当前暂无配置内容，请返回配置页添加一级标题与指标。</p>
+            <a href="workbench-config.html" class="btn btn-outline" style="margin-top:12px">返回配置</a>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/indicator-tree-config-data.js"></script>
+<script src="../assets/js/traffic-home-data.js"></script>
+<script src="../assets/js/overview-config-store.js"></script>
+<script src="../assets/js/overview-config-render.js"></script>
+<script src="../assets/js/overview-config-preview.js"></script>
+</body>
+</html>

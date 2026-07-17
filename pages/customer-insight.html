@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>客群洞察 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/customer-insight.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='customer-insight.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap ci-content-with-bar">
+      <main class="content-area" id="ci-insight-root">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 能力中心 / 洞察中心 / 客群洞察</div>
+        <div class="page-header">
+          <h1>客群洞察</h1>
+          <p>四度三维 · 客户识别、细分运营</p>
+        </div>
+
+        <nav class="ci-page-tabs" aria-label="客群洞察功能">
+          <button type="button" class="active" data-ci-tab="single"><i class="fas fa-user"></i> 单客户画像</button>
+          <button type="button" data-ci-tab="segment"><i class="fas fa-users-viewfinder"></i> 客群画像分析</button>
+          <button type="button" data-ci-tab="tags"><i class="fas fa-tags"></i> 标签体系</button>
+          <button type="button" data-ci-tab="monitor"><i class="fas fa-chart-line"></i> 客群趋势监控</button>
+        </nav>
+
+        <!-- Tab1 单客户画像 -->
+        <section class="ci-tab-panel active" id="ci-panel-single">
+          <div class="ci-single-search-wrap">
+            <input type="tel" id="ci-phone-input" placeholder="请输入用户手机号" maxlength="11"/>
+            <button type="button" class="btn btn-primary" id="btn-ci-search">查询</button>
+          </div>
+          <div id="ci-single-result"></div>
+        </section>
+
+        <!-- Tab2 客群画像分析 -->
+        <section class="ci-tab-panel" id="ci-panel-segment">
+          <div class="ci-segment-toolbar">
+            <div>
+              <label for="ci-segment-select" style="font-size:12px;color:#64748b;display:block;margin-bottom:4px">选择客群</label>
+              <select id="ci-segment-select"></select>
+            </div>
+            <button type="button" class="btn btn-outline" onclick="document.getElementById('ci-segment-select').dispatchEvent(new Event('change'))"><i class="fas fa-sync"></i> 刷新分析</button>
+          </div>
+          <div id="ci-segment-body"><p class="muted">请选择客群后查看聚类画像与产品关联度</p></div>
+        </section>
+
+        <!-- Tab3 标签体系 -->
+        <section class="ci-tab-panel" id="ci-panel-tags">
+          <div class="ci-tags-banner">
+            <div class="ci-tags-banner-text">
+              <strong>四度三维</strong>
+              <span>客户识别、细分运营</span>
+            </div>
+          </div>
+          <div class="ci-tags-global-bar">
+            <div class="ci-tags-search">
+              <input type="text" id="ci-tag-global-search" placeholder="请输入标签关键字或标签 ID"/>
+              <button type="button" class="btn btn-primary" id="btn-ci-tag-search">搜索</button>
+            </div>
+            <div class="ci-region-btns">
+              <button type="button" class="ci-region-btn active" data-region="province">省公司</button>
+              <button type="button" class="ci-region-btn" data-region="group-member">集团成员专区</button>
+              <button type="button" class="ci-region-btn" data-region="group-unit">集团单位专区</button>
+            </div>
+          </div>
+          <div class="ci-tag-dimensions" id="ci-tag-dimensions"></div>
+        </section>
+
+        <!-- Tab4 客群趋势监控 -->
+        <section class="ci-tab-panel" id="ci-panel-monitor">
+          <div class="ci-monitor-toolbar">
+            <p class="muted" style="margin:0;font-size:12px">维护核心监控客群清单，支持添加、删除与趋势详情下钻分析。</p>
+            <button type="button" class="btn btn-primary" id="btn-ci-monitor-add"><i class="fas fa-plus"></i> 添加监控客群</button>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <span><i class="fas fa-list"></i> 核心监控客群清单</span>
+              <span class="muted" id="ci-monitor-count" style="font-weight:normal;font-size:12px"></span>
+            </div>
+            <div class="card-body table-scroll" style="padding:0">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>客群名称</th>
+                    <th>规模</th>
+                    <th>责任部门</th>
+                    <th>更新频率</th>
+                    <th>稳定性</th>
+                    <th>价值度</th>
+                    <th>最近更新</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="ci-monitor-tbody"></tbody>
+              </table>
+              <div class="table-pagination" id="ci-monitor-pagination"></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- 标签体系底部操作栏 -->
+      <footer class="ci-tag-bottom-bar hidden" id="ci-tag-bottom-bar">
+        <div class="ci-bottom-left">
+          <i class="fas fa-shopping-cart"></i>
+          <span>已选标签 <strong id="ci-cart-count-bottom">0</strong> 个</span>
+          <button type="button" class="btn-link" id="ci-open-cart-rules">配置规则</button>
+        </div>
+        <div class="ci-bottom-stats">
+          <span>计算耗时 <strong id="ci-est-time">—</strong></span>
+          <span>客户数 <strong id="ci-est-customers">—</strong></span>
+        </div>
+        <div class="ci-bottom-actions">
+          <button type="button" class="btn btn-primary" id="btn-ci-create-group">创建客群</button>
+          <button type="button" class="btn btn-primary" id="btn-ci-create-portrait">创建群体画像</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ci-cart">
+  <div class="modal-box" style="width:min(560px,96vw)">
+    <div class="modal-head">
+      <strong>标签购物车 · 圈客规则</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-ci-cart"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div id="ci-cart-list"></div>
+      <div id="ci-cart-rules" style="margin-top:16px"></div>
+      <div class="form-field" style="margin-top:12px">
+        <label for="ci-new-segment-name">生成客群名称</label>
+        <input type="text" id="ci-new-segment-name" placeholder="如：高价值视频偏好客群" style="width:100%;padding:8px;border:1px solid #e2e8f0;border-radius:8px"/>
+      </div>
+    </div>
+    <div class="modal-foot" style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-ci-cart">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-ci-submit-segment"><i class="fas fa-check"></i> 提交生成客群</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ci-monitor-add">
+  <div class="modal-box" style="width:min(480px,96vw)">
+    <div class="modal-head">
+      <strong>添加监控客群</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-ci-monitor-add"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-field">
+        <label for="ci-monitor-add-select">选择客群</label>
+        <select id="ci-monitor-add-select" style="width:100%;padding:8px;border:1px solid #e2e8f0;border-radius:8px"></select>
+        <p class="muted" style="font-size:11px;margin:8px 0 0">仅展示尚未加入监控清单的客群</p>
+      </div>
+    </div>
+    <div class="modal-foot" style="padding:12px 18px;border-top:1px solid #e2e8f0;display:flex;justify-content:flex-end;gap:8px">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-ci-monitor-add">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-ci-monitor-add-confirm"><i class="fas fa-check"></i> 确认添加</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-ci-monitor">
+  <div class="modal-box modal-ci-monitor-lg">
+    <div class="modal-head">
+      <strong id="ci-monitor-detail-title">客群趋势详情</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-ci-monitor"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="ci-monitor-detail-body"></div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/indicator-segment-data.js"></script>
+<script src="../assets/js/customer-insight-data.js"></script>
+<script src="../assets/js/customer-insight-monitor-store.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/customer-insight.js"></script>
+</body>
+</html>

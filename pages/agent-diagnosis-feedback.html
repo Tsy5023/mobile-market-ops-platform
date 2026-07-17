@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略诊断评价管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/agent-strategy-diagnosis-data.js"></script>
+  <script src="../assets/js/agent-strategy-feedback-data.js"></script>
+  <script>
+    const CURRENT_PAGE = 'agent-diagnosis-feedback.html';
+    window.STRATEGY_FEEDBACK_CONFIG = {
+      prefix: 'df',
+      storeName: 'AgentDiagnosisFeedbackStore',
+      exportPrefix: '策略诊断评价',
+      usageTaskLabel: '诊断任务数',
+      usageStrategyLabel: '涉及策略数',
+      defaultStart: '2025-12-01',
+      defaultEnd: '2025-12-31',
+      rowActionsOnly: true
+    };
+  </script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions"><span>张明 · 省公司运营</span><div class="avatar"></div></div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 策略诊断助手管理 / 策略诊断评价管理</div>
+        <div class="agent-intro-banner">
+          <i class="fas fa-star-half-stroke"></i>
+          <div>
+            <strong>策略诊断助手 · 评价管理</strong><br/>
+            查看业务人员对诊断规则结论的点赞、点踩反馈，支持导出、单条点踩处理闭环与评价报告。
+          </div>
+        </div>
+        <div class="page-header"><h1>策略诊断评价管理</h1></div>
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="df-start">评价开始</label>
+            <input type="date" id="df-start" value="2025-12-01"/>
+          </div>
+          <div class="filter-field">
+            <label for="df-end">评价结束</label>
+            <input type="date" id="df-end" value="2025-12-31"/>
+          </div>
+          <div class="filter-field">
+            <label for="df-rating">评价结果</label>
+            <select id="df-rating">
+              <option value="">全部</option>
+              <option value="like">点赞</option>
+              <option value="dislike">点踩</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="df-kw">关键词</label>
+            <input type="text" id="df-kw" class="wide" placeholder="策略ID / 规则名称"/>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-df-reset">重置</button>
+            <button type="button" class="btn btn-primary" id="btn-df-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+            <span>评价列表 <span class="muted" id="df-count" style="font-size:12px;font-weight:normal"></span></span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="btn btn-outline btn-sm" id="btn-df-export"><i class="fas fa-file-export"></i> 导出</button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-df-report"><i class="fas fa-chart-pie"></i> 评价报告</button>
+            </div>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table agent-sd-table">
+              <thead>
+                <tr>
+                  <th style="width:56px">序号</th>
+                  <th>策略ID</th>
+                  <th>规则分类</th>
+                  <th>规则名称</th>
+                  <th>校验字段</th>
+                  <th>评价人</th>
+                  <th>评价结果</th>
+                  <th>评价时间</th>
+                  <th style="width:220px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="df-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="df-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-df-detail">
+  <div class="modal-box modal-agent-lg">
+    <div class="modal-header">
+      <strong>评价详情</strong>
+      <button class="modal-close" data-close-modal="modal-df-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="modal-df-detail-body"></div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-df-detail">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-df-report">
+  <div class="modal-box modal-agent-lg" style="max-width:860px">
+    <div class="modal-header">
+      <strong>策略诊断评价报告</strong>
+      <button class="modal-close" data-close-modal="modal-df-report"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="page-filter-form" style="margin-bottom:12px;padding:0;border:none">
+        <div class="filter-field">
+          <label for="df-report-start">开始日期</label>
+          <input type="date" id="df-report-start" value="2025-12-01"/>
+        </div>
+        <div class="filter-field">
+          <label for="df-report-end">结束日期</label>
+          <input type="date" id="df-report-end" value="2025-12-31"/>
+        </div>
+        <div class="filter-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="btn-df-report-run"><i class="fas fa-sync"></i> 刷新统计</button>
+        </div>
+      </div>
+      <div id="df-report-body"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-df-report">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-strategy-feedback-page.js"></script>
+</body>
+</html>

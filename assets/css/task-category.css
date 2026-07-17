@@ -1,0 +1,216 @@
+.module-view { display: none; }
+.module-view.active { display: block; }
+
+.dispatch-progress-wrap { margin-top: 16px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; }
+.dispatch-progress-head { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 8px; }
+.dispatch-progress-head strong { color: var(--primary); font-size: 18px; }
+.dispatch-progress-track { height: 10px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+.dispatch-progress-track.sm { height: 6px; flex: 1; min-width: 80px; }
+.dispatch-progress-bar { height: 100%; background: linear-gradient(90deg, #3b82f6, #22c55e); border-radius: 999px; transition: width 0.3s; }
+.dispatch-progress-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: 11px; color: #64748b; }
+.dispatch-progress-legend .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+.dispatch-progress-legend .dot.pending { background: #f59e0b; }
+.dispatch-progress-legend .dot.running { background: #3b82f6; }
+.dispatch-progress-legend .dot.done { background: #22c55e; }
+.dispatch-progress-inline { display: flex; align-items: center; gap: 8px; font-size: 12px; min-width: 120px; }
+.sub-task-child td:first-child + td { padding-left: 20px; }
+.dispatch-log-list { margin: 0; padding-left: 18px; font-size: 13px; color: #475569; }
+.dispatch-hint { line-height: 1.5; }
+
+.task-category-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.task-category-stat {
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+.task-category-stat .k {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+.task-category-stat .v {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.task-category-table tr.row-highlight {
+  background: #fffbeb;
+  outline: 2px solid #f59e0b;
+}
+
+/* 任务分类 · 详情概览 */
+.tc-overview {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.tc-overview-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border-bottom: 1px solid #e2e8f0;
+}
+.tc-overview-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.tc-overview-metric {
+  margin: 0 0 6px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.tc-overview-id { margin-top: 4px; }
+.tc-overview-progress-ring {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.tc-progress-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: conic-gradient(#3b82f6 calc(var(--pct) * 1%), #e2e8f0 0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.tc-progress-circle::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+.tc-progress-pct,
+.tc-progress-sub {
+  position: relative;
+  z-index: 1;
+  line-height: 1.2;
+  text-align: center;
+}
+.tc-progress-pct {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1d4ed8;
+}
+.tc-progress-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+.tc-progress-label {
+  font-size: 12px;
+  color: #64748b;
+}
+.tc-overview-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.tc-overview-metric-card {
+  padding: 16px 18px;
+  background: #fff;
+}
+.tc-overview-metric-card.accent .v { color: #0d9488; }
+.tc-overview-metric-card .k {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+.tc-overview-metric-card .v {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.tc-overview-metric-card .v.v-sm {
+  font-size: 14px;
+  font-weight: 600;
+}
+.tc-mom {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.tc-mom.neg { background: #fef2f2; color: #dc2626; }
+.tc-mom.pos { background: #f0fdf4; color: #16a34a; }
+.tc-overview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  padding: 14px 24px;
+  background: #fafbfc;
+  border-bottom: 1px solid #f1f5f9;
+}
+.tc-meta-item {
+  font-size: 13px;
+  color: #475569;
+}
+.tc-meta-item .k {
+  color: #94a3b8;
+  margin-right: 6px;
+}
+.tc-meta-item strong { color: #1d4ed8; }
+.tc-overview-remark {
+  padding: 14px 24px 18px;
+  background: #fff;
+}
+.tc-overview-remark .k {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+.tc-overview-remark p {
+  margin: 0;
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+}
+.tc-subtasks-card { margin-top: 0; }
+.tc-subtasks-table td { vertical-align: middle; }
+
+.filter-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.list-actions-cell { white-space: nowrap; }
+.list-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.list-actions .btn-sm {
+  padding: 4px 10px;
+  font-size: 12px;
+}

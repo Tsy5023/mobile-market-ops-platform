@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略分类 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-category.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='strategy-category.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span><small class="brand-sub">江西公司</small></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area" id="sc-category-root">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 能力中心 / 策略中心 / 策略分类</div>
+        <div class="page-header strategy-page-header">
+          <div>
+            <h1>策略分类</h1>
+          </div>
+        </div>
+
+        <nav class="sc-type-tabs" aria-label="策略类型">
+          <button type="button" class="active" data-sc-tab="segment"><i class="fas fa-users"></i> 客群类策略</button>
+          <button type="button" data-sc-tab="workorder"><i class="fas fa-clipboard-list"></i> 工单类策略</button>
+          <button type="button" data-sc-tab="alert"><i class="fas fa-triangle-exclamation"></i> 预警类策略</button>
+        </nav>
+
+        <!-- 客群类：策略列表 -->
+        <div id="sc-segment-recommend-panel" class="sc-segment-recommend-panel">
+          <div class="page-filter-form sc-segment-filter-form sc-filter-form-grid" id="strategy-filter-form">
+            <div class="sc-filter-grid">
+              <div class="filter-field">
+                <label for="filter-keyword">策略编号或名称</label>
+                <input type="text" id="filter-keyword" placeholder="请输入"/>
+              </div>
+              <div class="filter-field">
+                <label for="filter-creator">创建人</label>
+                <select id="filter-creator">
+                  <option value="">全部创建人</option>
+                  <option value="__mine__">我创建的</option>
+                </select>
+              </div>
+              <div class="filter-field filter-field-date">
+                <label>投放周期</label>
+                <div class="sc-date-range">
+                  <input type="date" id="filter-start" title="开始时间"/>
+                  <span class="date-range-sep">至</span>
+                  <input type="date" id="filter-end" title="结束时间"/>
+                </div>
+              </div>
+              <div class="filter-field">
+                <label for="filter-status">IOP策略状态</label>
+                <select id="filter-status">
+                  <option value="">全部</option>
+                  <option value="draft">草稿</option>
+                  <option value="pending_approval">审批中</option>
+                  <option value="approval_rejected">审批退回</option>
+                  <option value="pending_exec">待执行</option>
+                  <option value="pending_publish">待发布</option>
+                  <option value="executing">执行中</option>
+                  <option value="paused">暂停</option>
+                  <option value="completed">完成</option>
+                  <option value="terminated">终止</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="filter-sync-status">IOP同步状态</label>
+                <select id="filter-sync-status">
+                  <option value="">全部</option>
+                  <option value="syncing">同步中</option>
+                  <option value="sync_ok">同步成功</option>
+                  <option value="sync_failed">同步失败</option>
+                </select>
+              </div>
+              <div class="filter-field">
+                <label for="filter-channel">归属渠道</label>
+                <select id="filter-channel">
+                  <option value="">全部</option>
+                  <option value="10085外呼营销">10085外呼营销</option>
+                  <option value="中国移动APP">中国移动APP</option>
+                  <option value="营业厅网台">营业厅网台</option>
+                  <option value="10086呼入弹屏">10086呼入弹屏</option>
+                </select>
+              </div>
+            </div>
+            <div class="sc-filter-actions">
+              <button type="button" class="btn btn-outline" id="btn-strategy-reset"><i class="fas fa-redo"></i> 重置</button>
+              <button type="button" class="btn btn-primary" id="btn-strategy-filter"><i class="fas fa-search"></i> 查询</button>
+              <a href="strategy-create.html?pick=1" class="btn btn-primary"><i class="fas fa-plus"></i> 创建营销策略</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <span>客群类策略列表</span>
+              <span class="muted" id="strategy-list-count" style="font-size:12px;font-weight:normal"></span>
+            </div>
+            <div class="card-body sc-strategy-table-wrap" style="padding:0">
+              <table class="data-table sc-strategy-table">
+                <thead>
+                  <tr>
+                    <th style="width:48px">序号</th>
+                    <th>策略编号及名称</th>
+                    <th>执行周期</th>
+                    <th>策略更新时间</th>
+                    <th>渠道</th>
+                    <th>创建人</th>
+                    <th>IOP策略状态</th>
+                    <th>IOP同步状态</th>
+                    <th class="sc-col-ops">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="strategy-list-tbody"></tbody>
+              </table>
+              <div class="table-pagination" id="strategy-list-pagination"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 工单类 / 预警类：待设计 -->
+        <div id="sc-placeholder-panel" class="sc-design-placeholder" style="display:none">
+          <i class="fas fa-drafting-compass"></i>
+          <h3>功能待设计</h3>
+          <p class="muted" id="sc-placeholder-text">该类型策略模块正在规划中，敬请期待。</p>
+        </div>
+      </main>
+      <footer class="footer-bar">
+        <span>中国移动通信集团江西有限公司 · 演示原型</span>
+      </footer>
+    </div>
+  </div>
+</div>
+<div id="strategy-toast" class="strategy-toast" role="status" aria-live="polite"></div>
+
+<!-- 策略详情 -->
+<div class="modal-overlay" id="modal-strategy-detail">
+  <div class="modal-box" style="width:min(92vw,800px);max-height:90vh;display:flex;flex-direction:column">
+    <div class="modal-head">
+      <strong id="strategy-detail-title">策略详情</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-strategy-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="strategy-detail-body" style="overflow-y:auto"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-strategy-detail">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/strategy-lifecycle.js"></script>
+<script src="../assets/js/strategy-detail-view.js"></script>
+<script src="../assets/js/strategy-approval-data.js"></script>
+<script src="../assets/js/strategy-approval.js"></script>
+<script src="../assets/js/strategy-category-data.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/strategy-recommend.js"></script>
+<script src="../assets/js/strategy-toast.js"></script>
+<script src="../assets/js/strategy-category.js"></script>
+</body>
+</html>

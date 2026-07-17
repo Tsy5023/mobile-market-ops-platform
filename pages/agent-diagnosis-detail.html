@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略诊断详情 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/agent-strategy-diagnosis-data.js"></script>
+  <script>const CURRENT_PAGE='agent-diagnosis-detail.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions"><span>张明 · 省公司运营</span><div class="avatar"></div></div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / <a href="agent-diagnosis-list.html">AI策略诊断列表</a> / 诊断详情</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <h1>策略诊断详情</h1>
+          <a href="agent-diagnosis-list.html" class="btn btn-outline btn-sm"><i class="fas fa-arrow-left"></i> 返回列表</a>
+        </div>
+
+        <div class="diag-detail-header" id="diag-header"></div>
+
+        <div class="card">
+          <div class="card-header"><span>策略预演结果</span></div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table diag-rehearsal-table">
+              <thead>
+                <tr>
+                  <th style="width:56px">序号</th>
+                  <th style="min-width:140px">预演规则</th>
+                  <th style="width:200px">预演概况</th>
+                  <th>过滤明细</th>
+                </tr>
+              </thead>
+              <tbody id="diag-rehearsal-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="card-header"><span>诊断规则结果</span></div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table diag-result-table">
+              <thead>
+                <tr>
+                  <th style="width:56px">序号</th>
+                  <th style="min-width:140px">规则名称</th>
+                  <th style="width:100px">校验字段</th>
+                  <th style="width:120px">诊断结论</th>
+                  <th>诊断分析</th>
+                </tr>
+              </thead>
+              <tbody id="diag-items-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="card-header"><span>客群画像分析</span></div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table diag-portrait-table">
+              <thead>
+                <tr>
+                  <th style="width:56px">序号</th>
+                  <th style="min-width:140px">规则名称</th>
+                  <th>分析维度</th>
+                  <th>画像分析结果</th>
+                </tr>
+              </thead>
+              <tbody id="diag-portrait-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/agent-diagnosis-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+/* 运营概览配置 */
+.ovcfg-page-header {
+  margin-bottom: 16px;
+}
+
+/* 专区列表 */
+.ovcfg-zone-table {
+  margin: 0;
+}
+.ovcfg-zone-cell {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 0;
+}
+.ovcfg-zone-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--zone-color, #2563eb) 12%, white);
+  color: var(--zone-color, #2563eb);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.ovcfg-zone-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.ovcfg-zone-info strong {
+  font-size: 14px;
+  color: #0f172a;
+}
+.ovcfg-zone-info .muted {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.ovcfg-zone-group-tag {
+  display: inline-block;
+  width: fit-content;
+  margin-top: 2px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #64748b;
+  background: #f1f5f9;
+}
+.ovcfg-stat-num {
+  font-weight: 700;
+  color: #2563eb;
+}
+.ovcfg-zone-table .cell-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.ovcfg-zone-table .ovcfg-btn-preview {
+  padding: 6px 10px;
+}
+
+/* 配置编辑 */
+.ovcfg-edit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.ovcfg-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  margin-bottom: 8px;
+  border: none;
+  background: none;
+  color: #64748b;
+  font-size: 13px;
+  cursor: pointer;
+}
+.ovcfg-back-btn:hover {
+  color: #2563eb;
+}
+.ovcfg-edit-header h1 {
+  margin: 0;
+}
+.ovcfg-edit-sub {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+.ovcfg-edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 28px;
+}
+.ovcfg-edit-meta {
+  margin-bottom: 16px;
+}
+.ovcfg-edit-meta-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 40px;
+  padding: 14px 18px !important;
+}
+.ovcfg-edit-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ovcfg-edit-meta-item .label {
+  font-size: 11px;
+  color: #94a3b8;
+}
+.ovcfg-edit-meta-item strong {
+  font-size: 18px;
+  color: #0f172a;
+}
+.ovcfg-edit-meta-item span:not(.label) {
+  font-size: 13px;
+  color: #475569;
+}
+
+.ovcfg-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ovcfg-empty {
+  text-align: center;
+  padding: 48px 20px;
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  color: #64748b;
+}
+.ovcfg-empty i {
+  font-size: 32px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+}
+.ovcfg-section-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.ovcfg-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(90deg, #f8fafc 0%, #fff 100%);
+  border-bottom: 1px solid #eef2f6;
+}
+.ovcfg-section-order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.ovcfg-section-title {
+  flex: 1;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  background: #fff;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ovcfg-section-title:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+.ovcfg-section-title::placeholder {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* 操作按钮组 */
+.ovcfg-row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 10px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+.ovcfg-action-sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 2px;
+  background: #e2e8f0;
+}
+.ovcfg-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #64748b;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, transform 0.1s;
+}
+.ovcfg-icon-btn:hover:not(:disabled) {
+  background: #fff;
+  color: #2563eb;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+}
+.ovcfg-icon-btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+.ovcfg-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.ovcfg-icon-btn-danger:hover:not(:disabled) {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+.ovcfg-metrics-block {
+  padding: 14px 16px 16px;
+}
+.ovcfg-metrics-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.ovcfg-metrics-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+.ovcfg-metrics-label em {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  margin-left: 6px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2563eb;
+  background: #eff6ff;
+}
+.ovcfg-metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ovcfg-metric-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid #eef2f6;
+  border-radius: 10px;
+  background: #fafbfc;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ovcfg-metric-row:hover {
+  border-color: #dbeafe;
+  background: #fff;
+}
+.ovcfg-metric-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+.ovcfg-metric-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.ovcfg-metric-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.ovcfg-metric-text strong {
+  font-size: 13px;
+  color: #0f172a;
+  line-height: 1.35;
+}
+.ovcfg-metric-text code {
+  font-size: 11px;
+  color: #94a3b8;
+}
+.ovcfg-metrics-empty {
+  padding: 28px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #94a3b8;
+  border: 1px dashed #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+}
+.metric-pick-table tbody tr.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ovcfg-foot-actions {
+  margin-top: 14px;
+  padding-bottom: 20px;
+}
+
+/* 预览页 */
+.ovcfg-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ovcfg-preview-sub {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+.ovcfg-preview-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1d4ed8;
+}
+.ovcfg-preview-banner i {
+  flex-shrink: 0;
+}
+.ovcfg-preview-root {
+  min-height: 120px;
+}
+
+/* 运营概览首页配置模块区 */
+.ov-config-modules-root {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.ov-config-modules-root[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .ovcfg-edit-header {
+    flex-direction: column;
+  }
+  .ovcfg-edit-actions {
+    padding-top: 0;
+    width: 100%;
+  }
+  .ovcfg-section-head {
+    flex-wrap: wrap;
+  }
+  .ovcfg-section-title {
+    width: 100%;
+    flex: 1 1 100%;
+    order: 2;
+  }
+  .ovcfg-section-order {
+    order: 1;
+  }
+  .ovcfg-row-actions {
+    order: 3;
+    margin-left: auto;
+  }
+  .ovcfg-metric-row {
+    flex-wrap: wrap;
+  }
+  .ovcfg-zone-cell {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

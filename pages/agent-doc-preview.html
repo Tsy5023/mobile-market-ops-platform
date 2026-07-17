@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>文档预览 - 知识查询助手</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <style>
+    body { background: #f1f5f9; margin: 0; }
+    .doc-preview-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+    }
+    .doc-preview-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .doc-preview-toolbar h1 {
+      margin: 0;
+      font-size: 18px;
+      color: #0f172a;
+    }
+    .doc-preview-meta {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 4px;
+    }
+    .doc-preview-actions { display: flex; gap: 8px; }
+    .doc-preview-frame {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+      min-height: 70vh;
+      padding: 40px 48px;
+      line-height: 1.85;
+      font-size: 14px;
+      color: #334155;
+    }
+    .doc-preview-frame h2 {
+      font-size: 20px;
+      color: #0f172a;
+      margin: 0 0 8px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    .doc-preview-frame .doc-section {
+      margin-top: 24px;
+    }
+    .doc-preview-frame .doc-section h3 {
+      font-size: 15px;
+      color: #1e40af;
+      margin: 0 0 8px;
+    }
+    .doc-preview-empty {
+      text-align: center;
+      padding: 80px 20px;
+      color: #94a3b8;
+    }
+  </style>
+  <script src="../assets/js/agent-assistant-data.js"></script>
+</head>
+<body>
+<div class="doc-preview-shell">
+  <div class="doc-preview-toolbar">
+    <div>
+      <h1 id="doc-title">文档预览</h1>
+      <div class="doc-preview-meta" id="doc-meta"></div>
+    </div>
+    <div class="doc-preview-actions">
+      <button type="button" class="btn btn-primary" id="btn-doc-download"><i class="fas fa-download"></i> 下载文档</button>
+      <button type="button" class="btn btn-outline" onclick="window.close()"><i class="fas fa-times"></i> 关闭</button>
+    </div>
+  </div>
+  <div class="doc-preview-frame" id="doc-content"></div>
+</div>
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const docId = params.get('id');
+  const doc = docId ? AgentAssistantData.getDocById(docId) : null;
+
+  const MOCK_SECTIONS = {
+    'DOC-001': [
+      { h: '1. 指标定义', p: '流量收入指套餐内流量计费收入与套外流量收入之和，是衡量运营商流量经营成效的核心指标。' },
+      { h: '2. 统计粒度', p: '统计粒度为省份，支持地市下钻；数据更新周期为月，账期通常为 T+3 工作日。' },
+      { h: '3. 口径说明', p: '套餐内流量收入包含主套餐、融合套餐及增值包内的流量计费；套外流量收入指超出套餐配额后的按量计费部分。' }
+    ],
+    'DOC-002': [
+      { h: '1. 功能入口', p: '在指标洞察中选择异常指标，打开详情抽屉后切换至「根因分析」Tab。' },
+      { h: '2. 分析内容', p: '可查看指标传导链路、地市影响分布、客群画像及 AI 运营建议。' }
+    ]
+  };
+
+  function defaultSections(title) {
+    return [
+      { h: '文档概述', p: '本文档为「' + title + '」的说明材料，供知识查询助手引用与用户自助查阅。' },
+      { h: '适用范围', p: '适用于省公司及地市运营人员、系统配置管理员。' },
+      { h: '注意事项', p: '演示环境文档内容为模拟数据，正式环境以知识库实际上传文件为准。' }
+    ];
+  }
+
+  function buildContent(d) {
+    const sections = MOCK_SECTIONS[d.id] || defaultSections(d.title);
+    return `
+      <h2>${d.title}</h2>
+      <p style="color:#64748b;font-size:13px">文件：${d.fileName} · 分类：${d.category}</p>
+      ${sections.map(s => `
+        <div class="doc-section">
+          <h3>${s.h}</h3>
+          <p>${s.p}</p>
+        </div>
+      `).join('')}`;
+  }
+
+  function buildDownloadText(d) {
+    const sections = MOCK_SECTIONS[d.id] || defaultSections(d.title);
+    let text = d.title + '\n' + '='.repeat(Math.min(d.title.length, 40)) + '\n\n';
+    text += '文件名：' + d.fileName + '\n分类：' + d.category + '\n\n';
+    sections.forEach(s => { text += s.h + '\n' + s.p + '\n\n'; });
+    return text;
+  }
+
+  const titleEl = document.getElementById('doc-title');
+  const metaEl = document.getElementById('doc-meta');
+  const contentEl = document.getElementById('doc-content');
+  const btnDl = document.getElementById('btn-doc-download');
+
+  if (!doc) {
+    titleEl.textContent = '文档不存在';
+    contentEl.innerHTML = '<div class="doc-preview-empty"><i class="fas fa-file-circle-xmark" style="font-size:48px;margin-bottom:12px"></i><p>未找到对应文档，请返回重试。</p></div>';
+    btnDl.style.display = 'none';
+    return;
+  }
+
+  document.title = doc.title + ' - 文档预览';
+  titleEl.textContent = doc.title;
+  metaEl.textContent = doc.fileName + ' · ' + doc.category;
+  contentEl.innerHTML = buildContent(doc);
+
+  btnDl.addEventListener('click', () => {
+    const blob = new Blob([buildDownloadText(doc)], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = doc.fileName.replace(/\.pdf$/i, '.txt');
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>策略审核规则分类管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/agent-strategy-diagnosis.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/table-pagination.js"></script>
+  <script src="../assets/js/agent-strategy-audit-data.js"></script>
+  <script>const CURRENT_PAGE='agent-audit-rule-category.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions"><span>李敏 · 系统配置员</span><div class="avatar"></div></div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 智能体管理 / 策略审核规则分类管理</div>
+        <div class="agent-sd-intro">
+          <i class="fas fa-folder-tree"></i>
+          <div>对策略审核规则进行分类管理，分类可用于「策略审核规则管理」中配置规则归属。</div>
+        </div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <h1>策略审核规则分类管理</h1>
+          <button type="button" class="btn btn-primary" id="btn-create"><i class="fas fa-plus"></i> 新增分类</button>
+        </div>
+        <div class="page-filter-form">
+          <div class="filter-field">
+            <label for="filter-kw">分类名称</label>
+            <input type="text" id="filter-kw" class="wide" placeholder="关键词"/>
+          </div>
+          <div class="filter-field">
+            <label for="filter-status">状态</label>
+            <select id="filter-status">
+              <option value="">全部状态</option>
+              <option value="enabled">启用</option>
+              <option value="disabled">停用</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" id="btn-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span>分类列表</span><span class="muted" id="list-count" style="font-size:12px;font-weight:normal"></span></div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table agent-data-table">
+              <thead>
+                <tr>
+                  <th style="width:100px">分类ID</th>
+                  <th>分类名称</th>
+                  <th>描述</th>
+                  <th style="width:72px">状态</th>
+                  <th style="width:80px">更新人</th>
+                  <th style="width:148px">更新时间</th>
+                  <th style="width:180px">操作</th>
+                </tr>
+              </thead>
+              <tbody id="list-tbody"></tbody>
+            </table>
+            <div class="table-pagination" id="list-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-form">
+  <div class="modal-box modal-qa">
+    <div class="modal-header">
+      <div><strong id="form-title">新增分类</strong></div>
+      <button type="button" class="modal-close" data-close-modal="modal-form"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="rule-form" class="modal-body agent-form-vertical">
+      <input type="hidden" id="form-id"/>
+      <div class="form-field"><label class="req" for="f-name">分类名称</label><input type="text" id="f-name" required/></div>
+      <div class="form-field"><label for="f-desc">描述</label><textarea id="f-desc" rows="3"></textarea></div>
+    </form>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-form">取消</button>
+      <button type="submit" form="rule-form" class="btn btn-primary">保存</button>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/agent-audit-rule-category.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs & caches
+*.log
+npm-debug.log*
+.cache/
+dist/
+tmp/
+temp/
+
+# Local / agent tooling (optional keep out of public repo)
+.cursor/
+_prd-upload.md

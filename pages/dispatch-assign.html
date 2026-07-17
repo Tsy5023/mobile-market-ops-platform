@@ -1,0 +1,220 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>调度派发 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/task-category.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/strategy-category.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='dispatch-assign.html';</script>
+</head>
+<body class="page-dispatch-assign">
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb">
+          <a href="../index.html">首页</a> / 能力中心 / 调度中心 / 调度派发
+          · <a href="strategy-category.html?tab=segment">策略分类</a>
+        </div>
+
+        <div class="page-header">
+          <h1>调度派发</h1>
+        </div>
+
+        <nav class="sc-type-tabs" id="dispatch-hub-tabs" aria-label="调度类型">
+          <button type="button" class="active" data-hub-tab="metric"><i class="fas fa-bullseye"></i> 指标调度</button>
+          <button type="button" data-hub-tab="strategy"><i class="fas fa-chess"></i> 策略调度</button>
+        </nav>
+
+        <!-- 指标调度 -->
+        <div id="dispatch-hub-metric" class="dispatch-hub-panel active">
+          <div class="page-filter-form">
+            <div class="filter-field">
+              <label for="metric-dispatch-filter">任务/指标</label>
+              <input type="text" id="metric-dispatch-filter" class="wide" placeholder="任务 ID / 指标名称"/>
+            </div>
+            <div class="filter-field">
+              <label for="metric-dispatch-mode-filter">调度方式</label>
+              <select id="metric-dispatch-mode-filter">
+                <option value="">全部调度方式</option>
+                <option value="city">跨地市调度</option>
+                <option value="dept">跨部门调度</option>
+              </select>
+            </div>
+            <div class="filter-field">
+              <label for="metric-dispatch-status-filter">状态</label>
+              <select id="metric-dispatch-status-filter">
+                <option value="">全部状态</option>
+                <option value="pending_claim">待认领</option>
+                <option value="executing">处理中</option>
+                <option value="completed">已完成</option>
+              </select>
+            </div>
+            <div class="filter-actions">
+              <button type="button" class="btn btn-primary" id="btn-metric-dispatch-filter"><i class="fas fa-search"></i> 查询</button>
+              <button type="button" class="btn btn-outline" id="btn-reset-metric-demo" title="本地数据异常时可点此恢复">恢复演示数据</button>
+            </div>
+          </div>
+          <div id="dispatch-metric-list-view" class="module-view active">
+            <div class="card">
+              <div class="card-header">
+                <span>子任务列表</span>
+                <span class="muted" id="metric-dispatch-list-count" style="font-size:12px;font-weight:normal"></span>
+              </div>
+              <div class="card-body table-scroll" style="padding:0">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>子任务 ID</th>
+                      <th>指标名称</th>
+                      <th>所属指标树</th>
+                      <th>调度方式</th>
+                      <th>调度对象</th>
+                      <th>子任务状态</th>
+                      <th>派发时间</th>
+                      <th style="min-width:160px">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="metric-dispatch-list-tbody"></tbody>
+                </table>
+                <div class="table-pagination" id="metric-dispatch-pagination"></div>
+              </div>
+            </div>
+          </div>
+          <div id="dispatch-metric-detail-view" class="module-view">
+            <h1 class="dispatch-detail-title" id="metric-dispatch-detail-title">子任务处理</h1>
+            <div id="metric-dispatch-detail-body"></div>
+          </div>
+        </div>
+
+        <!-- 策略调度 -->
+        <div id="dispatch-hub-strategy" class="dispatch-hub-panel">
+          <div id="dispatch-view-list" class="module-view active">
+            <div class="page-filter-form">
+              <div class="filter-field">
+                <label for="dispatch-filter-id">策略</label>
+                <input type="text" id="dispatch-filter-id" class="wide" placeholder="策略 ID / 策略名称"/>
+              </div>
+              <div class="filter-field">
+                <label for="dispatch-filter-status">派发状态</label>
+                <select id="dispatch-filter-status">
+                  <option value="">全部派发状态</option>
+                  <option value="none">待派发</option>
+                  <option value="running">执行中</option>
+                  <option value="completed">已完成</option>
+                </select>
+              </div>
+              <div class="filter-actions">
+                <button type="button" class="btn btn-primary" id="btn-dispatch-filter"><i class="fas fa-search"></i> 查询</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <span>调度派发列表</span>
+                <span class="muted" id="dispatch-list-count" style="font-size:12px;font-weight:normal"></span>
+              </div>
+              <div class="card-body table-scroll" style="padding:0">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>策略 ID</th>
+                      <th>策略名称</th>
+                      <th>派发任务 ID</th>
+                      <th>派发对象</th>
+                      <th>派发量级</th>
+                      <th>覆盖地市</th>
+                      <th>派发状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dispatch-list-tbody"></tbody>
+                </table>
+                <div class="table-pagination" id="dispatch-list-pagination"></div>
+              </div>
+            </div>
+          </div>
+
+          <div id="dispatch-view-detail" class="module-view">
+            <div class="page-header">
+              <div>
+                <a href="dispatch-assign.html?tab=strategy" class="btn btn-ghost btn-sm module-back"><i class="fas fa-arrow-left"></i> 返回列表</a>
+                <h1 style="margin-top:10px">调度派发详情</h1>
+                <p class="strategy-id-line">策略 ID：<code id="dispatch-detail-strategy-id"></code></p>
+              </div>
+            </div>
+            <div id="dispatch-detail-body"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- 协同弹窗 -->
+<div class="modal-overlay" id="modal-dispatch-collab">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-head">
+      <strong>部门内部协同</strong>
+      <button class="modal-close" data-close-modal="modal-dispatch-collab"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="dispatch-collab-body"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-dispatch-collab">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-dispatch-collab-submit">确认协同</button>
+    </div>
+  </div>
+</div>
+
+<!-- 转派弹窗 -->
+<div class="modal-overlay" id="modal-dispatch-transfer">
+  <div class="modal-box" style="max-width:520px">
+    <div class="modal-head">
+      <strong>转派子任务</strong>
+      <button class="modal-close" data-close-modal="modal-dispatch-transfer"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="dispatch-transfer-body"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-dispatch-transfer">取消</button>
+      <button type="button" class="btn btn-primary" id="btn-dispatch-transfer-submit">确认转派</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/indicator-insight-data.js"></script>
+<script src="../assets/js/indicator-tree-he-churn-data.js"></script>
+<script src="../assets/js/indicator-tree-traffic-flow-data.js"></script>
+<script src="../assets/js/strategy-nav.js"></script>
+<script src="../assets/js/strategy-lifecycle.js"></script>
+<script src="../assets/js/anomaly-report.js"></script>
+<script src="../assets/js/rc-tag-tree-data.js"></script>
+<script src="../assets/js/rc-tag-tree-ui.js"></script>
+<script src="../assets/js/root-cause-flow.js"></script>
+<script src="../assets/js/indicator-segment-data.js"></script>
+<script src="../assets/js/segment-dispatch.js"></script>
+<script src="../assets/js/metric-dispatch-store.js"></script>
+<script src="../assets/js/indicator-caretaker-data.js"></script>
+<script src="../assets/js/dispatch-metric-work.js"></script>
+<script src="../assets/js/metric-dispatch-ui.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/dispatch-assign.js"></script>
+</body>
+</html>

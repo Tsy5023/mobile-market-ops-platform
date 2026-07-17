@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>指标树创建 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/indicator-scenario-demo.js"></script>
+  <script src="../assets/js/indicator-tree-config-data.js"></script>
+  <script src="../assets/js/indicator-tree-he-churn-data.js"></script>
+  <script>const CURRENT_PAGE='indicator-tree-editor.html';</script>
+</head>
+<body class="editor-page">
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>李敏 · 系统配置员</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area editor-content">
+        <div class="editor-topbar">
+          <div class="editor-topbar-left">
+            <a href="indicator-tree.html" class="back-link"><i class="fas fa-arrow-left"></i></a>
+            <h1 id="editor-page-title">指标树创建</h1>
+          </div>
+          <div class="editor-actions">
+            <button type="button" class="btn btn-outline" id="btn-cancel">取消</button>
+            <button type="button" class="btn btn-outline" id="btn-draft">保存草稿</button>
+            <button type="button" class="btn btn-outline" id="btn-preview">预览</button>
+            <button type="button" class="btn btn-primary" id="btn-publish">发布</button>
+          </div>
+        </div>
+
+        <div class="tree-editor-layout">
+          <div class="editor-canvas-wrap">
+            <div class="editor-canvas editor-canvas-bg" id="editor-canvas">
+              <div class="editor-canvas-inner" id="editor-canvas-inner"></div>
+            </div>
+            <div class="canvas-float-tools">
+              <button type="button" id="zoom-out" title="缩小"><i class="fas fa-magnifying-glass-minus"></i></button>
+              <button type="button" id="zoom-reset" title="适应"><i class="fas fa-compress"></i></button>
+              <button type="button" id="zoom-in" title="放大"><i class="fas fa-magnifying-glass-plus"></i></button>
+            </div>
+          </div>
+
+          <aside class="editor-side-panel">
+            <div id="editor-side-panel-wrap">
+            <div id="editor-side-tabs" class="editor-side-tabs">
+              <button type="button" class="active" data-tab="meta">指标树信息</button>
+              <button type="button" data-tab="node">指标节点信息</button>
+            </div>
+
+            <div id="panel-meta" class="side-panel-tab-panel active" data-panel="meta">
+              <div class="side-form">
+                <div class="form-field"><label class="req">指标树名称</label>
+                  <input type="text" id="meta-name" placeholder="请输入指标树名称"/>
+                </div>
+                <div class="form-field"><label>业务场景</label>
+                  <input type="text" id="meta-scene" placeholder="如：公众市场/国际业务运营"/>
+                </div>
+                <div class="form-field"><label for="meta-algorithm-scene">算法使用场景</label>
+                  <select id="meta-algorithm-scene">
+                    <option value="">请选择</option>
+                    <option value="traffic_rca">流量运营根因分析</option>
+                    <option value="loss_control_rca">控损运营根因分析</option>
+                  </select>
+                </div>
+                <div class="form-field"><label>指标树描述</label>
+                  <textarea id="meta-desc" rows="4" maxlength="500" placeholder="请输入描述"></textarea>
+                  <span class="char-count"><span id="meta-desc-count">0</span>/500</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="panel-node" class="side-panel-tab-panel" data-panel="node">
+              <div class="side-form">
+                <div class="form-field"><label class="req">节点名称</label>
+                  <input type="text" id="node-name" placeholder="请输入名称"/>
+                </div>
+                <div class="form-field field-node-type"><label>节点类型</label>
+                  <select id="node-type">
+                    <option value="category">节点指标</option>
+                    <option value="metric">业务指标</option>
+                  </select>
+                </div>
+                <div class="form-field field-metric-only" style="display:none"><label class="req">节点指标</label>
+                  <div class="input-with-icon metric-pick-trigger" data-pick-target="main">
+                    <input type="text" id="node-metric" placeholder="请选择指标" readonly/>
+                    <input type="hidden" id="node-metric-id"/>
+                    <input type="hidden" id="node-metric-code"/>
+                    <i class="fas fa-magnifying-glass"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<!-- 选择指标 -->
+<div class="modal-overlay" id="modal-metric-pick">
+  <div class="modal-box modal-metric-pick">
+    <div class="modal-head">
+      <strong id="metric-pick-modal-title">选择节点指标</strong>
+      <button class="modal-close" data-close-modal="modal-metric-pick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="metric-pick-filter">
+        <div class="filter-field">
+          <label for="mp-keyword">指标名称</label>
+          <input type="text" id="mp-keyword" placeholder="请输入指标名称或编码"/>
+        </div>
+        <div class="filter-field">
+          <label for="mp-algorithm-scene">算法使用场景</label>
+          <select id="mp-algorithm-scene">
+            <option value="">全部</option>
+            <option value="traffic_rca">流量运营根因分析</option>
+            <option value="loss_control_rca">控损运营根因分析</option>
+          </select>
+        </div>
+        <button type="button" class="btn btn-primary" id="mp-search"><i class="fas fa-search"></i> 搜索</button>
+      </div>
+      <div class="table-scroll">
+        <table class="data-table metric-pick-table">
+          <thead>
+            <tr>
+              <th style="width:42px"></th>
+              <th>指标编码</th>
+              <th>指标名称</th>
+              <th>算法使用场景</th>
+              <th>指标格式</th>
+              <th>指标更新时间</th>
+              <th>统计周期</th>
+            </tr>
+          </thead>
+          <tbody id="metric-pick-tbody"></tbody>
+        </table>
+      </div>
+      <div class="table-pagination compact-pagination" id="metric-pick-pagination"></div>
+    </div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-metric-pick">取消</button>
+      <button type="button" class="btn btn-primary" id="mp-confirm">确认</button>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/indicator-tree-editor.js"></script>
+</body>
+</html>

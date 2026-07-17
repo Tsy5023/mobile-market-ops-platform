@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>客群管理 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <link rel="stylesheet" href="../assets/css/config-mgmt.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/customer-segment-data.js"></script>
+  <script src="../assets/js/metric-dispatch-store.js"></script>
+  <script src="../assets/js/customer-segment-store.js"></script>
+  <script>const CURRENT_PAGE='customer-segment.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>李敏 · 系统配置员</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 客群和标签管理 / 客群管理</div>
+        <div class="page-header">
+          <h1 style="margin:0">客群管理</h1>
+        </div>
+
+        <div class="page-filter-form config-filter-form" id="segment-filter">
+          <div class="filter-field">
+            <label for="f-name">客群名称</label>
+            <input type="text" id="f-name" class="wide" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="f-code">客群编码</label>
+            <input type="text" id="f-code" placeholder="请输入"/>
+          </div>
+          <div class="filter-field">
+            <label for="f-status">状态</label>
+            <select id="f-status">
+              <option value="">请选择</option>
+              <option value="active">生效</option>
+              <option value="expired">失效</option>
+              <option value="draft">草稿</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="f-source">来源</label>
+            <select id="f-source">
+              <option value="">全部</option>
+              <option value="ai">AI根因生成</option>
+              <option value="dispatch">客群调度</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-reset"><i class="fas fa-redo"></i> 重置</button>
+            <button type="button" class="btn btn-primary" id="btn-query"><i class="fas fa-search"></i> 搜索</button>
+          </div>
+        </div>
+
+        <div class="card segment-table-card">
+          <div class="card-body" style="padding:0">
+            <div class="segment-table-scroll">
+              <table class="data-table segment-table">
+                <thead>
+                  <tr>
+                    <th class="seg-col-code">客群编码</th>
+                    <th class="seg-col-name">客群名称</th>
+                    <th class="seg-col-source">来源</th>
+                    <th class="seg-col-scale">客群规模</th>
+                    <th class="seg-col-caliber">业务口径</th>
+                    <th class="seg-col-date">生效日期</th>
+                    <th class="seg-col-date">失效日期</th>
+                    <th class="seg-col-status">状态</th>
+                    <th class="seg-col-ops">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="segment-tbody"></tbody>
+              </table>
+            </div>
+            <div class="table-pagination" id="segment-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-segment-detail">
+  <div class="modal-box modal-segment-detail-lg" style="width:min(92vw,760px)">
+    <div class="modal-head">
+      <strong>客群详情</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-segment-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body modal-detail-readonly" id="segment-detail-body"></div>
+    <div class="modal-foot">
+      <button type="button" class="btn btn-outline" data-close-modal="modal-segment-detail">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/customer-segment.js"></script>
+</body>
+</html>

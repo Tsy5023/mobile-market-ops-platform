@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>预警记录管理（730） - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/alert-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script>const CURRENT_PAGE='indicator-alert.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>张明 · 省公司运营</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 监控预警管理 / 预警记录管理（730）</div>
+        <div class="page-header">
+          <h1>预警记录管理（730）</h1>
+          <p>展示预警规则每日触发后的监控结果，支持按规则与日期查询</p>
+        </div>
+
+        <div class="alert-filter-panel">
+          <div class="filter-item">
+            <label for="alert-record-filter-rule">预警规则</label>
+            <input type="text" id="alert-record-filter-rule" placeholder="请输入预警规则名称"/>
+          </div>
+          <div class="filter-item">
+            <label>触发日期</label>
+            <div class="alert-date-range alert-date-range-filter">
+              <input type="date" id="alert-record-date-from" aria-label="开始日期"/>
+              <span class="alert-date-range-sep">至</span>
+              <input type="date" id="alert-record-date-to" aria-label="结束日期"/>
+            </div>
+          </div>
+          <div class="alert-filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-alert-record-reset">重置</button>
+            <button type="button" class="btn btn-primary" id="btn-alert-record-search"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span>预警记录列表</span>
+            <span class="muted" id="alert-record-count" style="font-size:12px;font-weight:normal"></span>
+          </div>
+          <div class="card-body table-scroll" style="padding:0">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>预警规则名称</th>
+                  <th>触发日期</th>
+                  <th>预警指标</th>
+                  <th>异常指标</th>
+                  <th>触发时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="alert-record-tbody"></tbody>
+            </table>
+          </div>
+          <div class="table-pagination" id="alert-record-pagination"></div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/alert-rules-store.js"></script>
+<script src="../assets/js/alert-record-common.js"></script>
+<script src="../assets/js/indicator-alert-store.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/indicator-alert-page.js"></script>
+</body>
+</html>

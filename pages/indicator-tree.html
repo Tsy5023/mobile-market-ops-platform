@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>指标树配置 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/indicator-scenario-demo.js"></script>
+  <script src="../assets/js/indicator-tree-config-data.js"></script>
+  <script>const CURRENT_PAGE='indicator-tree.html';</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span><i class="fas fa-bell"></i> 消息</span>
+      <span>李敏 · 系统配置员</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 配置管理 / 指标树配置</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+          <h1 style="margin:0">指标树配置</h1>
+        </div>
+
+        <div class="page-filter-form insight-filter-form tree-config-filter">
+          <div class="filter-field filter-field-name">
+            <label for="f-name">指标树名称</label>
+            <input type="text" id="f-name" placeholder="请输入指标树名称或编码"/>
+          </div>
+          <div class="filter-field">
+            <label for="f-scene">业务场景</label>
+            <select id="f-scene">
+              <option value="">请选择</option>
+              <option value="中高端客户流失">中高端客户流失</option>
+              <option value="中高端">中高端客户运营</option>
+              <option value="流量运营">流量运营</option>
+              <option value="离网">离网维系</option>
+              <option value="家庭">家庭运营</option>
+              <option value="国际">国际业务运营</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="f-algorithm-scene">算法使用场景</label>
+            <select id="f-algorithm-scene">
+              <option value="">全部场景</option>
+              <option value="traffic_rca">流量运营根因分析</option>
+              <option value="loss_control_rca">控损运营根因分析</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="f-status">状态</label>
+            <select id="f-status">
+              <option value="">全部</option>
+              <option value="draft">草稿</option>
+              <option value="online">上线</option>
+              <option value="offline">下线</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-outline" id="btn-reset"><i class="fas fa-redo"></i> 重置</button>
+            <button type="button" class="btn btn-primary" id="btn-query"><i class="fas fa-search"></i> 搜索</button>
+          </div>
+        </div>
+
+        <div class="list-toolbar">
+          <button type="button" class="btn btn-primary" id="btn-create-tree"><i class="fas fa-plus"></i> 创建指标树</button>
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="padding:0">
+            <div class="table-scroll">
+              <table class="data-table tree-config-table">
+                <thead>
+                  <tr>
+                    <th>指标树编码</th>
+                    <th>指标树名称</th>
+                    <th>业务场景</th>
+                    <th>算法使用场景</th>
+                    <th>状态</th>
+                    <th>创建人</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="tree-config-tbody"></tbody>
+              </table>
+            </div>
+            <div class="table-pagination" id="tree-pagination"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/indicator-tree-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>指标配置 - 移动市场运营平台</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="../assets/css/common.css"/>
+  <link rel="stylesheet" href="../assets/css/metric-pages.css"/>
+  <script src="../assets/js/nav-data.js"></script>
+  <script src="../assets/js/indicator-scenario-demo.js"></script>
+  <script>const CURRENT_PAGE='indicator-config.html';</script>
+</head>
+<body class="page-indicator-config">
+<div class="app-shell">
+  <header class="top-nav">
+    <div class="brand"><span>移动市场运营平台</span></div>
+    <nav class="nav-l1" id="nav-l1"></nav>
+    <div class="top-actions">
+      <span>李敏 · 系统配置员</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+  <div class="main-row">
+    <aside class="sidebar">
+      <div class="sidebar-title" id="sidebar-module-title">模块</div>
+      <ul class="menu-l2" id="sidebar-menu"></ul>
+    </aside>
+    <div class="content-wrap">
+      <main class="content-area">
+        <div class="breadcrumb"><a href="../index.html">首页</a> / 基础功能 / 配置管理 / 指标配置</div>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px">
+          <div>
+            <h1>指标配置</h1>
+            <p>指标库查询与指标元数据查看</p>
+          </div>
+        </div>
+
+        <div class="page-filter-form ic-metric-filter-form">
+          <div class="filter-field">
+            <label for="search-metric">指标</label>
+            <input type="text" id="search-metric" class="wide" placeholder="指标编码 / 名称"/>
+          </div>
+          <div class="filter-field">
+            <label for="filter-algorithm-scene">算法使用场景</label>
+            <select id="filter-algorithm-scene">
+              <option value="">全部场景</option>
+              <option value="traffic_rca">流量运营根因分析</option>
+              <option value="loss_control_rca">控损运营根因分析</option>
+            </select>
+          </div>
+          <div class="filter-field">
+            <label for="filter-metric-status">状态</label>
+            <select id="filter-metric-status">
+              <option value="">全部状态</option>
+              <option value="published">已发布</option>
+              <option value="disabled">已停用</option>
+            </select>
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn btn-primary" onclick="filterMetricLibraryTable()"><i class="fas fa-search"></i> 查询</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><span>指标库列表</span></div>
+          <div class="card-body" style="padding:0">
+            <table class="data-table" id="metric-table">
+              <thead>
+                <tr>
+                  <th>指标编码</th>
+                  <th>指标名称</th>
+                  <th>统计周期</th>
+                  <th>指标格式</th>
+                  <th>算法使用场景</th>
+                  <th>入库时间</th>
+                  <th>状态</th>
+                  <th class="ic-col-ops" style="width:80px">操作</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="table-pagination" id="metric-table-pagination"></div>
+          </div>
+        </div>
+      </main>
+      <footer class="footer-bar">
+        <span><span class="dot"></span>指标库只读查看</span>
+      </footer>
+    </div>
+  </div>
+</div>
+
+<!-- 指标详情（只读，字段同原新增指标表单） -->
+<div class="modal-overlay" id="modal-metric-detail">
+  <div class="modal-box modal-metric-edit">
+    <div class="modal-head">
+      <strong id="detail-modal-title">指标详情</strong>
+      <button type="button" class="modal-close" data-close-modal="modal-metric-detail"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body modal-metric-edit-body metric-detail-readonly">
+      <section class="metric-form-section">
+        <h3 class="metric-form-section-title">基本信息</h3>
+        <div class="form-grid metric-form-grid">
+          <div class="form-field"><label>指标名称</label><input id="f-name" readonly/></div>
+          <div class="form-field"><label>指标编码</label><input id="f-code" readonly/></div>
+          <div class="form-field">
+            <label>统计周期</label>
+            <div class="radio-inline">
+              <label><input type="radio" name="period" value="月" disabled/> 月</label>
+              <label><input type="radio" name="period" value="周" disabled/> 周</label>
+              <label><input type="radio" name="period" value="日" disabled checked/> 日</label>
+            </div>
+          </div>
+          <div class="form-field">
+            <label>指标格式</label>
+            <div class="radio-inline">
+              <label><input type="radio" name="format" value="numeric" disabled checked/> 数值</label>
+              <label><input type="radio" name="format" value="percent" disabled/> 百分比</label>
+              <label><input type="radio" name="format" value="enum" disabled/> 枚举</label>
+            </div>
+          </div>
+          <div class="form-field full">
+            <label for="f-algorithm-scenes">算法使用场景</label>
+            <input type="text" id="f-algorithm-scenes" readonly/>
+          </div>
+          <div class="form-field full"><label>业务口径</label><textarea id="f-caliber-biz" rows="3" readonly></textarea></div>
+          <div class="form-field full"><label>技术口径</label><textarea id="f-caliber-tech" rows="3" readonly></textarea></div>
+          <div class="form-field full"><label>指标描述</label><textarea id="f-desc" rows="3" readonly></textarea></div>
+          <div class="form-field"><label>指标入库时间</label><input id="f-warehouse-time" readonly/></div>
+          <div class="form-field"><label>更新时间</label><input id="f-updated-at" readonly/></div>
+        </div>
+      </section>
+      <div class="modal-metric-edit-foot">
+        <button type="button" class="btn btn-outline" data-close-modal="modal-metric-detail">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/layout.js"></script>
+<script src="../assets/js/metric-common.js"></script>
+<script src="../assets/js/table-pagination.js"></script>
+<script src="../assets/js/indicator-config-page.js"></script>
+</body>
+</html>
